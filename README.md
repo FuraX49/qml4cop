@@ -1,7 +1,7 @@
 # qml4cop
 Qml Touch screen 3d printer controller client  for Octoprint 
 
-apt install  python3-sip python3-pyqt5  python3-pyqt5.qtquick   python3-pyqt5.qtserialport
+apt install  python3-sip python3-pyqt5  python3-pyqt5.qtquick   python3-pyqt5.qtserialport pyqt5-dev-tools
 
 apt install  qtvirtualkeyboard-plugin
 
