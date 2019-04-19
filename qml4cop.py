@@ -9,8 +9,6 @@ from PyQt5.QtGui import QGuiApplication
 from PyQt5.QtQuick import QQuickView
 from PyQt5.QtQml import qmlRegisterType
 
-
-
 #from PyQt5.QtChart import QChart, QChartView, QLineSeries
 
 #pyrcc5 -o images_rc.py images.qrc

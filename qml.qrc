@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>MainPage.qml</file>
+        <file>Configs.qml</file>
+        <file>Terminal.qml</file>
+        <file>Print.qml</file>
+        <file>Jog.qml</file>
+        <file>Files.qml</file>
+        <file>Graph.qml</file>
+    </qresource>
+</RCC>

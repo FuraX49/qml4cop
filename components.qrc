@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Components/HeaderButton.qml</file>
+        <file>Components/OctoPrintClient.qml</file>
+        <file>Components/OctoPrintShared.js</file>
+        <file>Components/Heater.qml</file>
+        <file>Components/PaneBase.qml</file>
+        <file>Components/PrintProgress.qml</file>
+        <file>Components/PrintButton.qml</file>
+        <file>Components/RateControl.qml</file>
+        <file>Components/FanControl.qml</file>
+        <file>Components/Extruder.qml</file>
+        <file>Components/JogButton.qml</file>
+        <file>Components/StepBox.qml</file>
+        <file>Components/JobInfo.qml</file>
+    </qresource>
+</RCC>
