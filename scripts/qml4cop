@@ -1,0 +1,24 @@
+#!/bin/bash
+#/usr/local/bin/qml4cop
+
+# ******** QPA Variables *******************
+export QT_QPA_EGLFS_HIDECURSOR=1
+export QT_QPA_FONTDIR=/usr/share/fonts/truetype/dejavu
+export QT_QPA_PLATFORM=eglfs
+export QT_QPA_EGLFS_INTEGRATION=none
+
+# *********** SCREEN 5" WaveShare *****************
+export QT_QPA_EGLFS_PHYSICAL_WIDTH=108
+export QT_QPA_EGLFS_PHYSICAL_HEIGHT=64
+export QT_QPA_EGLFS_WIDTH=800
+export QT_QPA_EGLFS_HEIGHT=480
+export QT_QPA_EGLFS_ROTATION=0
+
+export XDG_RUNTIME_DIR=/tmp/xdg-rtd-${USER}
+if  [ ! -d ${XDG_RUNTIME_DIR} ]  ; then
+	mkdir -p ${XDG_RUNTIME_DIR}
+fi
+
+cd /opt/qml4cop
+python3 qml4cop.py -platform eglfs
+
