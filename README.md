@@ -3,7 +3,7 @@ Allows you to control your 3D Printer with any   TouchScreen.
 
 But in Qt QML/Python3   client  of  Octoprint,  and can run without X11 in EGLFS.
 
-![](https://github.com/FuraX49/qml4cop/wiki/Print.png)
+![](https://github.com/FuraX49/qml4cop/raw/master/ScreenShots/Print.png)
 
 
 
