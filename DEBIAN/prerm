@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# errors shouldn't cause script to exit
+set +e
+
+rm  /opt/qml4cop/images_rc.py
+rm -rf /opt/qml4cop/*.qmlc
+rm -rf /opt/qml4cop/*.jsc
+rm -rf /opt/qml4cop/*.pyc
+
+INIT_SYSTEM=`cat /proc/1/comm`
+if test $INIT_SYSTEM = "systemd"
+then
+        systemctl stop qml4cop.service 2>/dev/null
+        systemctl disable qml4cop.service 2>/dev/null
+        systemctl daemon-reload
+fi
+exit 0

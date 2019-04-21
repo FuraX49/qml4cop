@@ -1,0 +1,31 @@
+#!/bin/sh
+
+# errors shouldn't cause script to exit
+set +e
+
+do_config() {
+
+  pyrcc5 -o /opt/qml4cop/images_rc.py /opt/qml4cop/images.qrc
+
+  INIT_SYSTEM=`cat /proc/1/comm`
+  if test $INIT_SYSTEM = "systemd"
+  then
+    systemctl daemon-reload
+    systemctl enable qml4cop.service 2>/dev/null
+    systemctl start qml4cop.service 2>/dev/null
+  fi
+}
+
+
+case "$1" in
+   configure)
+       do_config
+   ;;
+   abort-upgrade|abort-remove|abort-deconfigure)
+       echo "$1"
+   ;;
+   *)
+       exit 0
+   ;;
+esac
+
