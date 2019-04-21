@@ -20,5 +20,5 @@ if  [ ! -d ${XDG_RUNTIME_DIR} ]  ; then
 fi
 
 cd /opt/qml4cop
-python3 qml4cop.py -platform eglfs
+python3 qml4cop.py 
 

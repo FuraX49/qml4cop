@@ -38,6 +38,7 @@ Item {
     property string cfg_Api_Key :  "MODIFY"
     property string cfg_UserName :  "MODIFY"
     property string cfg_User_Key :  "MODIFY"
+    property int    cfg_Cnx_Int  :  10
 
     property string cfg_printerPort :  "MODIFY"
     property string cfg_printerProfile :  "MODIFY"
@@ -57,6 +58,7 @@ Item {
         property alias username: mainpage.cfg_UserName
         property alias userkey: mainpage.cfg_User_Key
         property alias printerProfile: mainpage.cfg_printerProfile
+        property alias cnxInterval : mainpage.cfg_Cnx_Int
     }
 
     Settings {
@@ -90,6 +92,11 @@ Item {
         userkey: cfg_User_Key
         printerProfile  : cfg_printerProfile
         printerPort : cfg_printerPort
+        intervalcnx:  mainpage.cfg_Cnx_Int
+
+        onTryConnect: {
+            lbStatus.text= "Try connect "+cnttry.toString();
+        }
 
         on_ConnectedChanged: {
             if (_connected) {
@@ -199,7 +206,7 @@ Item {
             }
         }
 
-        //onJobChanged: {
+
         onFileSelected: {
             console.debug("onfileSelected");
             if (OPS.job.file.name) {
@@ -208,7 +215,6 @@ Item {
         }
 
         onLogChanged: {
-            //console.debug(log);
             terminalpage.addLogs(log);
         }
 

@@ -18,7 +18,7 @@ Item {
 
     property bool _connected : false
 
-    property real intervalcnx: 6
+    property real intervalcnx: 10
     property int retrycpt : 0
 
     property string stateText : '';
@@ -39,7 +39,7 @@ Item {
     signal logChanged(string log)
     signal profileChanged()
 
-    //signal jobChanged()
+    signal tryConnect(int cnttry)
     signal fileSelected()
 
     property alias filesmodel: filesmodel
@@ -552,7 +552,8 @@ Item {
         onTriggered: {
             retrycpt++;
             if (retrycpt<10)  {
-                if (debug) console.debug('cnxtimer connectprofile try :' +retrycpt);
+                if (debug) console.debug('cnxtimer connect profile try :' +retrycpt);
+                tryConnect(retrycpt);
                 connectprofile();
             } else {
                 mainpage.msgerror.open("Erreur configuration","Review your configuration, timout when try connecting !")
