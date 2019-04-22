@@ -239,8 +239,6 @@ Item {
         spacing: fontSize24
         margins: fontSize24
 
-
-        //cascade: true
         MenuItem {
             text: "Print"
             font.pixelSize: fontSize16*2
@@ -263,7 +261,6 @@ Item {
                 stackpages.currentIndex=2
             }
         }
-
         MenuItem {
             text: "Terminal"
             font.pixelSize:  fontSize16*2
@@ -278,6 +275,13 @@ Item {
                 stackpages.currentIndex=4
             }
         }
+        MenuItem {
+            text: qsTr("System")
+            font.pixelSize:  fontSize16*2
+            onTriggered: {
+                systemctlMenu.open()
+            }
+        }
         /*
         MenuItem {
             text: "Graph"
@@ -286,6 +290,41 @@ Item {
                 stackpages.currentIndex=5
             }
         }*/
+    }
+
+
+    Menu {
+        id : systemctlMenu
+        spacing: fontSize24
+        margins: fontSize24
+        implicitWidth : fontSize16 * 24
+        x: Math.round((parent.width - width) / 2)
+        y: Math.round((parent.height - height) / 2)
+
+        MenuItem {
+            id : shutdown
+            text: qsTr("Shutdown SYSYEM")
+            font.pixelSize:  fontSize16*2
+            onTriggered: {
+                opc.actioncore('shutdown');
+            }
+        }
+        MenuSeparator { }
+        MenuItem {
+            text: qsTr("Reboot SYSYEM")
+            font.pixelSize:  fontSize16*2
+            onTriggered: {
+                opc.actioncore('reboot');
+            }
+        }
+        MenuSeparator { }
+        MenuItem {
+            text: qsTr("Restart OCTOPRINT")
+            font.pixelSize:  fontSize16*2
+            onTriggered: {
+                opc.actioncore('restart');
+            }
+        }
     }
 
 

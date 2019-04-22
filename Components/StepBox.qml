@@ -11,6 +11,8 @@ SpinBox {
     from: 0
     value: 0
     to:  items.length -1
+    implicitWidth: 120
+    implicitHeight: 40
 
     property int decimals: 1
     property real realValue: value / 10
@@ -27,4 +29,6 @@ SpinBox {
         border.width: 2
         border.color: Default.buttonCheckedColor
      }
+
+
 }

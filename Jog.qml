@@ -312,10 +312,8 @@ Page {
 
         StepBox {
             id : step
-            //   topPadding: 5
-            //  padding: 0
             Layout.columnSpan: 2
-            font.pixelSize: fontSize12
+            font.pixelSize: fontSize14
             font.bold: true
             Layout.fillHeight: true
             Layout.fillWidth: true
@@ -356,6 +354,10 @@ Page {
 
 
 }
+
+
+
+
 
 /*##^## Designer {
     D{i:0;autoSize:true;height:480;width:800}

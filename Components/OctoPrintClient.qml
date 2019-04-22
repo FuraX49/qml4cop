@@ -352,6 +352,21 @@ Item {
                     ) ;
     }
 
+    function  actioncore(command){
+        if (!_connected) return;
+        command=command.toLowerCase();
+        var params = '';
+        sendRequest('POST','/api/system/commands/core/'+command,params,
+                    function (p) {
+                        if (p.status !== 204)
+                        {
+                            console.log(" error jobcommand  :" +p.responseText);
+                        }
+                    }
+                    ) ;
+    }
+
+
     /*============================================================================================= */
     WebSocket {
         id: wsocket
@@ -529,6 +544,8 @@ Item {
             case WebSocket.Error:
                 console.log('OPC WebSocket error:', wsocket.errorString);
                 _connected=false;
+                disconnect();
+                wsocket.active=false;
                 break;
 
             case WebSocket.Closed:
