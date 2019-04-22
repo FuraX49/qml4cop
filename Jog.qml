@@ -7,7 +7,14 @@ import "Components"
 
 Page {
     id: jogpage
+    property alias lbpX: lbpX
+    property alias lbpY: lbpY
     property alias lbpZ: lbpZ
+
+
+    onVisibleChanged: {
+        if (visible)   opc.sendcommand("M114");
+    }
 
     RowLayout {
         id: rowaxes
@@ -126,7 +133,8 @@ Page {
             Layout.fillHeight: true
             Layout.fillWidth: true
             onClicked: {
-                opc.jogprinter("y",+step.jogsize)
+                opc.jogprinter("y",+step.jogsize);
+                opc.sendcommand("M114");
             }
         }
 
@@ -142,7 +150,8 @@ Page {
             Layout.fillHeight: true
             Layout.fillWidth: true
             onClicked: {
-                opc.jogprinter("Z",step.jogsize)
+                opc.jogprinter("Z",step.jogsize);
+                opc.sendcommand("M114");
             }
         }
 
@@ -159,7 +168,8 @@ Page {
             Layout.fillHeight: true
             Layout.fillWidth: true
             onClicked: {
-                opc.jogprinter("X",-step.jogsize)
+                opc.jogprinter("X",-step.jogsize);
+                opc.sendcommand("M114");
             }
         }
 
@@ -175,7 +185,8 @@ Page {
             Layout.fillHeight: true
             Layout.fillWidth: true
             onClicked: {
-                opc.jogprinter("X",step.jogsize)
+                opc.jogprinter("X",step.jogsize);
+                opc.sendcommand("M114");
             }
         }
 
@@ -193,7 +204,8 @@ Page {
             Layout.fillHeight: true
             Layout.fillWidth: true
             onClicked: {
-                opc.jogprinter("y",-step.jogsize)
+                opc.jogprinter("y",-step.jogsize);
+                opc.sendcommand("M114");
             }
         }
 
@@ -212,7 +224,8 @@ Page {
             Layout.fillHeight: true
             Layout.fillWidth: true
             onClicked: {
-                opc.jogprinter("Z",-step.jogsize)
+                opc.jogprinter("Z",-step.jogsize);
+                opc.sendcommand("M114");
             }
         }
 
@@ -229,6 +242,7 @@ Page {
             image : "qrc:/Images/jog/home.svg"
             onClicked: {
                 opc.homeprinter("x");
+                opc.sendcommand("M114");
             }
         }
 
@@ -244,6 +258,7 @@ Page {
             image : "qrc:/Images/jog/home.svg"
             onClicked: {
                 opc.homeprinter("Y");
+                opc.sendcommand("M114");
             }
 
         }
@@ -260,6 +275,7 @@ Page {
             image : "qrc:/Images/jog/home.svg"
             onClicked: {
                 opc.homeprinter("XYZ");
+                opc.sendcommand("M114");
             }
         }
 
@@ -275,6 +291,7 @@ Page {
             image : "qrc:/Images/jog/home.svg"
             onClicked: {
                 opc.homeprinter("Z");
+                opc.sendcommand("M114");
             }
         }
 
@@ -295,8 +312,8 @@ Page {
 
         StepBox {
             id : step
-         //   topPadding: 5
-          //  padding: 0
+            //   topPadding: 5
+            //  padding: 0
             Layout.columnSpan: 2
             font.pixelSize: fontSize12
             font.bold: true
@@ -313,7 +330,7 @@ Page {
             Layout.fillHeight: true
             Layout.fillWidth: true
             onClicked: {
-                opc.sendcommand("M84")
+                opc.sendcommand("M84");
             }
         }
 
@@ -327,10 +344,11 @@ Page {
             Layout.fillWidth: true
             onClicked: {
                 if (checked) {
-                    opc.sendcommand("G31")
+                    opc.sendcommand("G31");
                 } else {
                     opc.sendcommand("G32")
                 }
+                opc.sendcommand("M114");
             }
         }
 

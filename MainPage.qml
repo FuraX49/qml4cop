@@ -211,6 +211,12 @@ Item {
             jogpage.lbpZ.text= z.toPrecision(2);
         }
 
+        onPositionUpdate:  {
+            jogpage.lbpX.text= x.toPrecision(2);
+            jogpage.lbpY.text= y.toPrecision(2);
+            jogpage.lbpZ.text= z.toPrecision(2);
+        }
+
 
         onFileSelected: {
             console.debug("onfileSelected");
