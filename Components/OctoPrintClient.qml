@@ -260,15 +260,13 @@ Item {
     }
 
 
-    function  homeprinter( axe){
+    function  homeprinter(axe){
         if (!_connected) return;
-        axe= axe.toUpperCase();
-        var params = ' { "command": "home" ';
-        params=params.concat( ' , "axes": {');
-        params=params.concat((axe.indexOf("X")>-1)? '"X",' : '' ) ;
-        params=params.concat((axe.indexOf("Y")>-1)? '"Y",' : '' ) ;
-        params=params.concat((axe.indexOf("Z")>-1)? '"Z"' : '' ) ;
-        params=params.concat('} }');
+        axe= axe.toLowerCase();
+        if (axe==='xyz' ) {
+            axe='x","y","z';
+        }
+        var params = ' { "command": "home"  , "axes": ["' + axe + '"] }';
         sendRequest('POST','/api/printer/printhead',params,
                     function (p) {
                         if (p.status !== 204)
