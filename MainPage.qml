@@ -204,6 +204,11 @@ Item {
             if (opc.statePrinting) {
                 printpage.printprogress.updateProgress();
             }
+
+
+        }
+        onCurrentZChanged: {
+            jogpage.lbpZ.text= z.toPrecision(2);
         }
 
 

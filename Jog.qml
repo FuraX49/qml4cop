@@ -7,6 +7,7 @@ import "Components"
 
 Page {
     id: jogpage
+    property alias lbpZ: lbpZ
 
     RowLayout {
         id: rowaxes
@@ -337,3 +338,8 @@ Page {
 
 
 }
+
+/*##^## Designer {
+    D{i:0;autoSize:true;height:480;width:800}
+}
+ ##^##*/

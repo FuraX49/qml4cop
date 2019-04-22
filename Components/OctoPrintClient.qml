@@ -41,6 +41,7 @@ Item {
 
     signal tryConnect(int cnttry)
     signal fileSelected()
+    signal currentZChanged(real z)
 
     property alias filesmodel: filesmodel
     ListModel {
@@ -367,7 +368,7 @@ Item {
 
         onTextMessageReceived: {
             if (debug) console.log('OPC websock recv:',message);
-            //console.log('OPC websock recv:',message);
+            //console.debug('OPC websock recv:',message);
             if ("string"===typeof message) message=JSON.parse(message);
 
             // =========================== CONNECTED PAYLOAD ===========================
@@ -495,8 +496,10 @@ Item {
             // =========================== EVENT PAYLOAD ===========================
             if (message.event) {
                 console.debug(" ==== EVENT PAYLOAD ====== " );
-                if (message.event.type==='FileSelected') {
-                    console.debug(" ==== EVENT PAYLOAD FILESELECTED ====== " );
+                if (message.event.type==='ZChange') {
+                    currentZChanged( message.event.payload.new);
+
+                } else if (message.event.type==='FileSelected') {
                     fileSelected();
                 } else {
                     console.debug(" ==== EVENT PAYLOAD =>  " +message.event.type );

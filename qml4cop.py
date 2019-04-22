@@ -33,7 +33,7 @@ if __name__ == '__main__':
     app.setOrganizationDomain("qml4cop")
     app.setOrganizationName("qml4cop")
     app.setApplicationName("qml4cop")
-    app.setApplicationVersion("0.21.1")
+    app.setApplicationVersion("0.22.0")
 
 
     view = QQuickView()
