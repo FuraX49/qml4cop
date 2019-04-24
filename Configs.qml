@@ -1,6 +1,8 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
+import QtQuick.Controls.Universal 2.2
+
 
 Page {
     id: pageconfigs
@@ -53,6 +55,7 @@ Page {
             text: cfg_Url
             horizontalAlignment: Text.AlignLeft
             font.bold: true
+            color: Universal.accent
             Layout.fillHeight: false
             Layout.fillWidth: true
             font.pointSize: fontSize12
@@ -76,6 +79,7 @@ Page {
             verticalAlignment: Text.AlignVCenter
             font.pointSize: portrait? fontSize12:fontSize12
             font.bold: true
+            color: Universal.accent
             Layout.fillHeight: false
             Layout.fillWidth: true
         }
@@ -98,6 +102,7 @@ Page {
             verticalAlignment: Text.AlignVCenter
             font.pointSize:  fontSize12
             font.bold: true
+            color: Universal.accent
             Layout.fillHeight: false
             Layout.fillWidth: true
         }
@@ -121,6 +126,7 @@ Page {
             verticalAlignment: Text.AlignVCenter
             font.pointSize: portrait? fontSize12:fontSize12
             font.bold: true
+            color: Universal.accent
             Layout.fillHeight: false
             Layout.fillWidth: true
         }
@@ -142,6 +148,7 @@ Page {
             id: txt_port
             text: cfg_printerPort
             font.bold: true
+            color: Universal.accent
             font.pointSize:  fontSize12
             Layout.fillHeight: false
             Layout.fillWidth: true
@@ -165,6 +172,7 @@ Page {
             id: txt_profil
             text: cfg_printerProfile
             font.bold: true
+            color: Universal.accent
             font.pointSize:  fontSize12
             Layout.fillHeight: false
             Layout.fillWidth: true

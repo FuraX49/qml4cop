@@ -2,6 +2,7 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.impl 2.2
+import QtQuick.Controls.Universal 2.2
 
 
 PaneBase  {
@@ -45,7 +46,7 @@ PaneBase  {
                 id: name
                 text: slider.value.toString()
                 font.weight: Font.Light
-                //color: control.palette.buttonText
+                color: Universal.foreground
                 font.pixelSize: fontSize10
                 width : parent.width
                 height: parent.height

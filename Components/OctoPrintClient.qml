@@ -293,7 +293,6 @@ Item {
             api=api.concat('/',path)
         }
         api=api.concat('?recursive=false')
-        //console.debug("API :" +api + " " +params);
         sendRequest('GET',api,params,
                     function (p) {
                         if (p.status === 200)
@@ -523,6 +522,14 @@ Item {
 
                 } else if (message.event.type==='FileSelected') {
                     fileSelected();
+
+                } else if (message.event.type==='ClientOpened') {
+                    logChanged("Client opened from remote address "+ message.event.payload.remoteAddress);
+
+
+                } else if (message.event.type==='ClientClosed') {
+                    logChanged("Client closed from remote address "+ message.event.payload.remoteAddress);
+
 
                 } else {
                     console.debug(" ==== EVENT PAYLOAD =>  " +message.event.type );

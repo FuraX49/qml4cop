@@ -2,7 +2,7 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Controls.impl 2.2
 import QtGraphicalEffects 1.0
-
+import QtQuick.Controls.Universal 2.2
 
 Button  {
     id: control
@@ -21,6 +21,7 @@ Button  {
     font.weight: Font.ExtraBold
 
 
+
     onEs1Changed: {
         esoc.color=Qt.rgba( (es1?1.0:0.0),0.0, (es2?1.0:0.0),1.0);
         esoc.visible=es1||es2;
@@ -30,6 +31,16 @@ Button  {
         esoc.visible=es1||es2;
     }
 
+    contentItem: Text {
+              text: control.text
+              font: control.font
+              opacity: enabled ? 1.0 : 0.3
+              color: control.down ?  Universal.foreground : Universal.background
+              horizontalAlignment: Text.AlignHCenter
+              verticalAlignment: Text.AlignVCenter
+              elide: Text.ElideRight
+          }
+
 
     background:
         Rectangle {
@@ -37,7 +48,7 @@ Button  {
         radius:   homebutton ? width /2 : width / 4
         border.width: borderWidth
         opacity: control.down ? 0.5 : 1.0
-        color: control.down || control.checked || control.highlighted ?  Default.buttonCheckedColor : Default.buttonColor
+        color: control.down || control.checked || control.highlighted ?   Universal.accent :   Universal.foreground
     }
 
     Image {

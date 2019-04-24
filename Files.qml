@@ -2,6 +2,7 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Controls.impl 2.2
 import QtQuick.Layouts 1.3
+import QtQuick.Controls.Universal 2.2
 import "Components"
 
 
@@ -24,7 +25,7 @@ Page {
         Rectangle {
             width: fileview.width
             height:  fontSize24
-            color: Default.frameLightColor
+            color: Universal.accent
             opacity: 0.5
             radius: 5
             y: (fileview.currentIndex>-1)?fileview.currentItem*fontSize12 : 0
@@ -90,7 +91,9 @@ Page {
                     text: display
                     font.bold: (type!=='folder')?false:true
                     font.pixelSize: fontSize12
+                    color: Universal.foreground
                     width: Math.floor(parent.width * 0.65)
+
                 }
 
                 Text {
@@ -98,6 +101,7 @@ Page {
                     text:(type!=='folder')?Math.round(size/1024) +"Kb":''
                     font.bold: false
                     font.pixelSize: fontSize12
+                    color: Universal.foreground
                     width: Math.floor(parent.width * 0.12)
                 }
                 Text {
@@ -105,6 +109,7 @@ Page {
                     text: (type!=='folder')?new Date(date*1000).toLocaleString(locale,"yyyy/MM/dd HH:mm:ss"):""
                     font.bold: false
                     font.pixelSize: fontSize12
+                    color: Universal.foreground
                     width: Math.floor(parent.width * 0.23)
                 }
                 Text {
@@ -188,6 +193,7 @@ Page {
             HeaderButton {
                 id: tbSelect
                 text: qsTr("Select")
+                Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                 autoExclusive: false
                 Layout.preferredWidth:  Math.floor(parent.width * 0.20)
                 Layout.fillHeight: true
@@ -198,11 +204,8 @@ Page {
                 checked: false
                 checkable: false
                 onClicked: {
-
                     if (  pathsel !== "") {
                         opc.fileselect(originsel,pathsel);
-                    } else {
-                        //fileChoosed(false,"",0,0,0);
                     }
                 }
             }
@@ -214,6 +217,7 @@ Page {
                     source: "qrc:/Images/files/Local.svg"
                 }
                 text: qsTr("Local")
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 Layout.preferredWidth:  Math.floor(parent.width * 0.20)
                 Layout.fillHeight: true
                 autoExclusive: true
@@ -232,6 +236,7 @@ Page {
                     source: "qrc:/Images/files/sdcard.svg"
                 }
                 text: qsTr("SdCard")
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 Layout.preferredWidth:  Math.floor(parent.width * 0.20)
                 Layout.fillHeight: true
                 autoExclusive: true
@@ -250,6 +255,7 @@ Page {
                     source: "qrc:/Images/files/usb.svg"
                 }
                 text: qsTr("Usb")
+                visible: false
                 autoExclusive: true
                 Layout.preferredWidth:  Math.floor(parent.width * 0.20)
                 Layout.fillHeight: true

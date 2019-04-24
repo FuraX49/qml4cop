@@ -18,7 +18,7 @@ PaneBase {
     QtObject {
         id: p
         property int actualTemp: 0
-        property int targetTemp: maxTemp
+        property int targetTemp: 0
     }
 
     signal targetChanged(bool heat,int target)

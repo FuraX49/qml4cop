@@ -2,6 +2,7 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Controls.impl 2.2
 import QtQuick.Templates 2.2  as T
+import QtQuick.Controls.Universal 2.2
 
 
 T.Pane {
@@ -16,12 +17,13 @@ T.Pane {
     contentHeight: contentItem.implicitHeight || (contentChildren.length === 1 ? contentChildren[0].implicitHeight : 0)
 
 
+
     background: Rectangle {
         id: rectangle
         radius: 4
-        color: Default.backgroundColor
+        color: Universal.background
         border.width: 2
-        border.color: Default.textColor
+        border.color: Universal.foreground
     }
 }
 

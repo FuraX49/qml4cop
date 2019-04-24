@@ -2,6 +2,7 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.impl 2.2
+import QtQuick.Controls.Universal 2.2
 
 PaneBase {
     id: control
@@ -52,7 +53,7 @@ PaneBase {
                 text: slider.value.toString()
                 font.weight: Font.Light
                 font.pixelSize: fontSize10
-                //color: control.palette.buttonText
+                color: Universal.foreground
                 width : parent.width
                 height: parent.height
             }
@@ -76,12 +77,12 @@ PaneBase {
             font.pixelSize: fontSize14
             enabled: (fanindex>0)
             onClicked: {
-                 if (fanindex>0) {
-                     fanindex--;
-                     toolButton.text="Fan\n"+fanindex.toString();
-                     slider.value=speedfan[fanindex];
-                     toolButton.checked= offan[fanindex];
-                 }
+                if (fanindex>0) {
+                    fanindex--;
+                    toolButton.text="Fan\n"+fanindex.toString();
+                    slider.value=speedfan[fanindex];
+                    toolButton.checked= offan[fanindex];
+                }
             }
         }
 

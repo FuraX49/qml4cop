@@ -2,6 +2,7 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Controls.impl 2.2
 import QtQuick.Layouts 1.3
+import QtQuick.Controls.Universal 2.2
 import "OctoPrintShared.js" as OPS
 
 PaneBase {
@@ -55,7 +56,6 @@ PaneBase {
             verticalAlignment: Text.AlignVCenter
             Layout.fillHeight: true
             Layout.fillWidth: true
-            //color: Default.textLightColor
         }
 
         ProgressBar {
@@ -70,7 +70,7 @@ PaneBase {
             to : 100
 
             background: Rectangle {
-                color: Default.focusColor
+                color : Universal.accent
                 width: parent.width
                 height: columnLayout.height/4
                 radius: 3

@@ -1,6 +1,7 @@
 import QtQuick 2.9
 import QtQuick.Window 2.2
 import QtQuick.Controls 2.2
+import QtQuick.Controls.Universal 2.2
 import QtQuick.Layouts 1.3
 import QtQuick.VirtualKeyboard 2.1
 import Qt.labs.settings 1.0
@@ -100,10 +101,12 @@ Item {
 
         on_ConnectedChanged: {
             if (_connected) {
+                console.info("Connected at : " + Date());
                 configpage.btn_cnx.text="Disconnect";
                 opc.getprinterprofiles();
                 filespage.init();
             } else {
+                console.info("Disconnected at : " + Date());
                 configpage.btn_cnx.text="Connect";
             }
         }
@@ -138,13 +141,36 @@ Item {
             }
         }
 
-        onStateOperationalChanged:  {console.debug("StateOperational " + stateOperational )}
-        onStateCancellingChanged: {console.debug("stateCancelling " + stateCancelling )}
-        onStatePausingChanged: {console.debug("statePausing " + statePausing )}
+        onStateOperationalChanged:  {
+            console.info("StateOperational  "  + stateOperational  + " at " + Date());
+        }
+
+        onStateCancellingChanged: {
+            console.info("stateCancelling  "  + stateCancelling  + " at " + Date());
+            if (stateCancelling) {
+                tbStart.enabled=true;
+                tbPause.enabled=false;
+                tbCancel.enabled=false;
+            } else {
+                tbStart.enabled=false;
+                tbPause.enabled=true;
+                tbCancel.enabled=true;
+            }
+        }
+
+        onStatePausingChanged: {
+            console.info("statePausing  "  + statePausing  + " at " + Date());
+
+        }
         onStateSdReadyChanged: {console.debug("stateSdReady " + stateSdReady )}
         onStateErrorChanged:  {console.debug("stateError " + stateError )}
         onStateReadyChanged: {console.debug("stateReady " + stateReady )}
-        onStateClosedOrErrorChanged: {console.debug("stateClosedOrError " + stateClosedOrError )}
+
+        onStateClosedOrErrorChanged: {
+            lbStatus.text="Error";
+            msgerror.open("OctoPrint ERROR",opc.stateText);
+            console.debug("stateClosedOrError " + stateClosedOrError )
+        }
 
         onTempChanged: {
             if (!history) {
@@ -219,7 +245,6 @@ Item {
 
 
         onFileSelected: {
-            console.debug("onfileSelected");
             if (OPS.job.file.name) {
                 printpage.printprogress.updateJob(OPS.job);
             }
@@ -231,8 +256,28 @@ Item {
 
 
     }
+    SystemPalette {
 
+    }
 
+    /*
+    QtObject {
+        property color textColor: theme.textColor
+        property color disabledTextColor: Qt.rgba(theme.textColor.r, theme.textColor.g, theme.textColor.b, 0.6)
+        property color highlightColor: theme.highlightColor
+        property color backgroundColor: theme.backgroundColor
+        function __propagateColorSet(object, context) {
+
+            switch(context) {
+            case Kirigami.Theme.Window:
+                object.PlasmaCore.ColorScope.colorGroup = PlasmaCore.Theme.NormalColorGroup;
+                break;
+            }
+        }
+        function __propagateTextColor(object, color) {}
+        function __propagateBackgroundColor(object, color) {}
+    }
+    */
 
     Menu {
         id : rootMenu
@@ -540,6 +585,7 @@ Item {
 
 
     Component.onCompleted: {
+        console.info("Completed at : " + Date());
         update();
         if ((cfg_Api_Key==="MODIFY") ||  (cfg_printerProfile==="MODIFY") || (cfg_printerPort==="MODIFY")  || (cfg_UserName==="MODIFY")  || (cfg_User_Key==="MODIFY")   ) {
             msgerror.open("Configuration error","Edit /etc/qml4cop/qml4cop.conf and modify configuration. ");
@@ -548,6 +594,7 @@ Item {
             opc.init();
         }
     }
+
 
 }
 
