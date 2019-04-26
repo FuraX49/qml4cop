@@ -104,3 +104,21 @@ python3 qml4cop.py
 - QT_QPA_PLATFORM=eglfs  (possible  linuxfb, diirectfb, wayland, xcb    see https://doc.qt.io/qt-5/embedded-linux.html)
 - QT_QPA_EGLFS_INTEGRATION=none (  for BB, eglfs_brcm for PI3)
 
+
+
+## Packaging
+
+git clone https://github.com/FuraX49/qml4cop
+
+cd qml4cop
+
+mkdir build
+
+cd build
+
+cmake ../
+
+cpack -G DEB
+
+apt-get install ./qml4cop_0.50.1_all.deb
+
