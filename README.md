@@ -1,7 +1,5 @@
-# qml4cop
-Allows you to control your 3D Printer with any   TouchScreen.
-
-But in Qt QML/Python3   client  of  Octoprint,  and can run without X11 in EGLFS.
+# qml4cop (beta)
+Another program to control your 3D Printer with any  TouchScreen, but in Qt QML/Python3   client  of  Octoprint,  and can run without X11 in EGLFS.
 
 ![](https://github.com/FuraX49/qml4cop/raw/master/ScreenShots/Print.png)
 
@@ -31,13 +29,6 @@ qml-module-qtquick-virtualkeyboard qml-module-qtquick-window2 qml-module-qtwebso
 Copy scripts/qml4cop in /usr/local/bin 
 
 ## Configuration
-
-Edit /usr/local/bin/qml4cop 
-
-- adjust screen resolution.
-- adjust screen size  in mm.  
-- QT_QPA_PLATFORM=eglfs  (possible  linuxfb, diirectfb, wayland, xcb    see https://doc.qt.io/qt-5/embedded-linux.html)
-- QT_QPA_EGLFS_INTEGRATION=none ( eglfs_brcm for PI3)
 
 
 
@@ -74,4 +65,42 @@ fanNb=2
 printerPort=/dev/octoprint_1
 ```
 
- 
+##  Run
+
+Edit /usr/local/bin/qml4cop 
+
+```
+#!/bin/bash
+#/usr/local/bin/qml4cop
+
+# ******** QPA Variables *******************
+export QT_QPA_EGLFS_HIDECURSOR=1
+export QT_QPA_FONTDIR=/usr/share/fonts/truetype/dejavu
+export QT_QPA_PLATFORM=eglfs
+export QT_QPA_EGLFS_INTEGRATION=none
+
+# *********** SCREEN 7" WaveShare *****************
+export QT_QPA_EGLFS_PHYSICAL_WIDTH=156
+export QT_QPA_EGLFS_PHYSICAL_HEIGHT=84
+export QT_QPA_EGLFS_WIDTH=1024
+export QT_QPA_EGLFS_HEIGHT=600
+export QT_QPA_EGLFS_ROTATION=0
+
+export XDG_RUNTIME_DIR=/tmp/xdg-rtd-${USER}
+if  [ ! -d ${XDG_RUNTIME_DIR} ]  ; then
+	mkdir -p ${XDG_RUNTIME_DIR}
+fi
+
+cd /opt/qml4cop
+python3 qml4cop.py 
+```
+
+
+
+
+
+- adjust screen resolution.
+- adjust size QT_QPA_EGLFS_PHYSICAL  in mm.  
+- QT_QPA_PLATFORM=eglfs  (possible  linuxfb, diirectfb, wayland, xcb    see https://doc.qt.io/qt-5/embedded-linux.html)
+- QT_QPA_EGLFS_INTEGRATION=none (  for BB, eglfs_brcm for PI3)
+
