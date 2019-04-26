@@ -27,6 +27,54 @@ Item {
 
 
 
+
+    function graphUpdate (heure) {
+        // Graph update
+        tool0actual.append(heure,OPS.temps.tool0.actual);
+        tool0target.append(heure,OPS.temps.tool0.target);
+        if (tool0actual.count>=octoprintclient.maxGraphHist ) {
+            tool0actual.removePoints(0,1);
+            tool0target.removePoints(0,1);
+        }
+        axisX.max=heure;
+
+
+        if (printpage.tool1.visible) {
+            tool1actual.append(heure,OPS.temps.tool1.actual);
+            tool1target.append(heure,OPS.temps.tool1.target);
+            if (tool1actual.count>=octoprintclient.maxGraphHist ) {
+                tool1actual.removePoints(0,1);
+                tool1target.removePoints(0,1);
+            }
+        }
+
+        if (printpage.tool2.visible) {
+            tool2actual.append(heure,OPS.temps.tool2.actual);
+            tool2target.append(heure,OPS.temps.tool2.target);
+            if (tool2actual.count>=octoprintclient.maxGraphHist ) {
+                tool2actual.removePoints(0,1);
+                tool2target.removePoints(0,1);
+            }
+        }
+        if (printpage.tool3.visible) {
+            tool3actual.append(heure,OPS.temps.tool3.actual);
+            tool3target.append(heure,OPS.temps.tool3.target);
+            if (tool3actual.count>=octoprintclient.maxGraphHist ) {
+                tool3actual.removePoints(0,1);
+                tool3target.removePoints(0,1);
+            }
+        }
+        if (printpage.bed.visible) {
+            bedactual.append(heure,OPS.temps.bed.actual);
+            bedtarget.append(heure,OPS.temps.bed.target);
+            if (bedactual.count>=octoprintclient.maxGraphHist ) {
+                bedactual.removePoints(0,1);
+                bedtarget.removePoints(0,1);
+            }
+        }
+    }
+
+
     ChartView {
         id : chart
         anchors.fill: parent

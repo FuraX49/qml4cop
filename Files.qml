@@ -138,7 +138,11 @@ Page {
                         opc.getfilespath(location,refpath.text);
                         fileview.currentIndex=-1;
                     } else {
-                        opc.fileselect(originsel,pathsel);
+                        originsel=reforigin.text
+                        pathsel=refpath.text;
+                        if (  pathsel !== "") {
+                            opc.fileselect(originsel,pathsel);
+                        }
                     }
 
                 }
@@ -205,8 +209,14 @@ Page {
                 checkable: false
                 onClicked: {
                     if (  pathsel !== "") {
+
                         opc.fileselect(originsel,pathsel);
                     }
+                }
+
+                onDoubleClicked: {
+                    // TODO  ?opc.fileunselect();
+                    opc.stateFileSelected=false;
                 }
             }
 

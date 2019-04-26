@@ -31,7 +31,7 @@ Item {
     property bool stateError: false
     property bool stateReady: false
     property bool stateClosedOrError: false
-
+    property bool stateFileSelected: false
     property bool heatedBed: false
     property int extrudercount: 1
 
@@ -321,7 +321,8 @@ Item {
 
     function  fileselect(origin,path){
         if (!_connected) return;
-        var params = ' { "command": "select" }'  ;
+        var params = ' { "command" : "select" }'  ;
+        //var api = 'onClicked: {';
         var api = '/api/files';
         api=api.concat('/',origin,'/',path);
         sendRequest('POST',api,params,
@@ -331,16 +332,19 @@ Item {
                             console.log(" error fileselect  :" +p.responseText);
                             msgerror.open("Error file",p.responseText);
                         } else {
-                            //  jobChanged();
+                            stateFileSelected=true;
                         }
                     }
                     ) ;
     }
 
+
+
     function  jobcommand(command){
         if (!_connected) return;
         command=command.toLowerCase();
-        var params = ' { "command": "'+  command + '"}'  ;
+        var params = ' { "command": '+  command + '}'  ;
+        console.debug(params);
         sendRequest('POST','/api/job',params,
                     function (p) {
                         if (p.status !== 204)
@@ -527,8 +531,59 @@ Item {
                     logChanged("Client opened from remote address "+ message.event.payload.remoteAddress);
 
 
+                } else if (message.event.type==='PrintResumed') {
+                    statePrinting=true;
+                    statePaused =false;
+
+                } else if (message.event.type==='PrintCancelled') {
+                    statePrinting=true;
+                    statePaused =false;
+
                 } else if (message.event.type==='ClientClosed') {
                     logChanged("Client closed from remote address "+ message.event.payload.remoteAddress);
+
+
+                } else if (message.event.type==='PrinterStateChanged') {
+                    console.log("PrinterStateChanged : " + message.event.payload.state_id);
+                    switch (message.event.payload.state_id) {
+
+
+                    case "OFFLINE":
+                        break;
+
+                    case "STARTING":
+                        break;
+
+                    case "OPERATIONAL":
+                        statePrinting=false;
+                        break;
+
+                    case "PRINTING":
+                        statePrinting=true;
+                        stateReady=false;
+                        break;
+
+                    case "PAUSING":
+                        statePausing=true;
+                        break;
+
+                    case "PAUSED":
+                        statePaused=true;
+                        statePrinting=false;
+                        break;
+
+                    case "RESUMING":
+                        statePaused=false;
+                        statePrinting=true;
+                        stateReady=false;
+                        break;
+
+                    case "CANCELLING":
+                        stateCancelling=true;
+                        break;
+
+
+                    }
 
 
                 } else {

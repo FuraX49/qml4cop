@@ -310,6 +310,7 @@ Page {
         spacing: fontSize12 /2
 
 
+
         StepBox {
             id : step
             Layout.columnSpan: 2
@@ -333,19 +334,41 @@ Page {
         }
 
         PrintButton {
+            id : tbResetESAlarm
+            text : "ES Alarm"
+            font.pixelSize: fontSize16
+            font.weight: Font.ExtraBold
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+            onClicked: {
+                opc.sendcommand("M19");
+            }
+        }
+
+        PrintButton {
             id : tbDockff
-            text : checked?"Dock":"UnDock"
+            Layout.columnSpan: 1
+            text : "Dock"
+            font.pixelSize: fontSize16
+            font.weight: Font.ExtraBold
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+            onClicked: {
+                opc.sendcommand("G32");
+                opc.sendcommand("M114");
+            }
+        }
+
+        PrintButton {
+            id : tbUnDockff
+            text : "UnDock"
             checkable: true
             font.pixelSize: fontSize16
             font.weight: Font.ExtraBold
             Layout.fillHeight: true
             Layout.fillWidth: true
             onClicked: {
-                if (checked) {
-                    opc.sendcommand("G31");
-                } else {
-                    opc.sendcommand("G32")
-                }
+                opc.sendcommand("G31");
                 opc.sendcommand("M114");
             }
         }

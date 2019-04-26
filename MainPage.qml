@@ -95,6 +95,7 @@ Item {
         printerPort : cfg_printerPort
         intervalcnx:  mainpage.cfg_Cnx_Int
 
+
         onTryConnect: {
             lbStatus.text= "Try connect "+cnttry.toString();
         }
@@ -118,27 +119,10 @@ Item {
         onStateTextChanged: {
             lbStatus.text=opc.stateText;
         }
-        onStatePausedChanged: {
-            console.debug("statePaused " + statePaused )
-            if (statePaused) {
-                tbPause.enabled=true;
-                tbPause.checked=true;
-            } else  {
-                tbPause.checked=false;
-            }
-        }
+
 
         onStatePrintingChanged: {
-            console.debug("statePrinting " + statePrinting )
-            if (statePrinting) {
-                tbStart.enabled=false;
-                tbPause.enabled=true;
-                tbCancel.enabled=true;
-            } else {
-                tbStart.enabled=true;
-                tbPause.enabled=false;
-                tbCancel.enabled=false;
-            }
+            console.info("statePrinting " + statePrinting )
         }
 
         onStateOperationalChanged:  {
@@ -147,24 +131,28 @@ Item {
 
         onStateCancellingChanged: {
             console.info("stateCancelling  "  + stateCancelling  + " at " + Date());
-            if (stateCancelling) {
-                tbStart.enabled=true;
-                tbPause.enabled=false;
-                tbCancel.enabled=false;
-            } else {
-                tbStart.enabled=false;
-                tbPause.enabled=true;
-                tbCancel.enabled=true;
-            }
         }
 
         onStatePausingChanged: {
             console.info("statePausing  "  + statePausing  + " at " + Date());
-
         }
-        onStateSdReadyChanged: {console.debug("stateSdReady " + stateSdReady )}
-        onStateErrorChanged:  {console.debug("stateError " + stateError )}
-        onStateReadyChanged: {console.debug("stateReady " + stateReady )}
+
+
+        onStatePausedChanged: {
+            console.info("statePaused  "  + statePaused  + " at " + Date());
+        }
+
+        onStateSdReadyChanged: {
+            console.debug("stateSdReady " + stateSdReady )
+        }
+
+        onStateErrorChanged:  {
+            console.debug("stateError " + stateError )
+        }
+
+        onStateReadyChanged: {
+            console.debug("stateReady " + stateReady )
+        }
 
         onStateClosedOrErrorChanged: {
             lbStatus.text="Error";
@@ -180,51 +168,6 @@ Item {
                 if (printpage.tool3.visible) printpage.tool3.updateTemps(OPS.temps.tool3.actual,OPS.temps.tool3.target);
                 if (printpage.bed.visible) printpage.bed.updateTemps(OPS.temps.bed.actual,OPS.temps.bed.target);
             }
-            /*
-            // Graph update
-            graphpage.tool0actual.append(heure,OPS.temps.tool0.actual);
-            graphpage.tool0target.append(heure,OPS.temps.tool0.target);
-            if (graphpage.tool0actual.count>=octoprintclient.maxGraphHist ) {
-                graphpage.tool0actual.removePoints(0,1);
-                graphpage.tool0target.removePoints(0,1);
-            }
-            graphpage.axisX.max=heure;
-
-
-            if (printpage.tool1.visible) {
-                graphpage.tool1actual.append(heure,OPS.temps.tool1.actual);
-                graphpage.tool1target.append(heure,OPS.temps.tool1.target);
-                if (graphpage.tool1actual.count>=octoprintclient.maxGraphHist ) {
-                    graphpage.tool1actual.removePoints(0,1);
-                    graphpage.tool1target.removePoints(0,1);
-                }
-            }
-
-            if (printpage.tool2.visible) {
-                graphpage.tool2actual.append(heure,OPS.temps.tool2.actual);
-                graphpage.tool2target.append(heure,OPS.temps.tool2.target);
-                if (graphpage.tool2actual.count>=octoprintclient.maxGraphHist ) {
-                    graphpage.tool2actual.removePoints(0,1);
-                    graphpage.tool2target.removePoints(0,1);
-                }
-            }
-            if (printpage.tool3.visible) {
-                graphpage.tool3actual.append(heure,OPS.temps.tool3.actual);
-                graphpage.tool3target.append(heure,OPS.temps.tool3.target);
-                if (graphpage.tool3actual.count>=octoprintclient.maxGraphHist ) {
-                    graphpage.tool3actual.removePoints(0,1);
-                    graphpage.tool3target.removePoints(0,1);
-                }
-            }
-            if (printpage.bed.visible) {
-                graphpage.bedactual.append(heure,OPS.temps.bed.actual);
-                graphpage.bedtarget.append(heure,OPS.temps.bed.target);
-                if (graphpage.bedactual.count>=octoprintclient.maxGraphHist ) {
-                    graphpage.bedactual.removePoints(0,1);
-                    graphpage.bedtarget.removePoints(0,1);
-                }
-            }
-            */
 
             // update Progress
             if (opc.statePrinting) {
@@ -233,6 +176,7 @@ Item {
 
 
         }
+
         onCurrentZChanged: {
             jogpage.lbpZ.text= z.toPrecision(2);
         }
@@ -248,6 +192,7 @@ Item {
             if (OPS.job.file.name) {
                 printpage.printprogress.updateJob(OPS.job);
             }
+            tbStart.enabled=true;
         }
 
         onLogChanged: {
@@ -256,33 +201,14 @@ Item {
 
 
     }
-    SystemPalette {
 
-    }
 
-    /*
-    QtObject {
-        property color textColor: theme.textColor
-        property color disabledTextColor: Qt.rgba(theme.textColor.r, theme.textColor.g, theme.textColor.b, 0.6)
-        property color highlightColor: theme.highlightColor
-        property color backgroundColor: theme.backgroundColor
-        function __propagateColorSet(object, context) {
-
-            switch(context) {
-            case Kirigami.Theme.Window:
-                object.PlasmaCore.ColorScope.colorGroup = PlasmaCore.Theme.NormalColorGroup;
-                break;
-            }
-        }
-        function __propagateTextColor(object, color) {}
-        function __propagateBackgroundColor(object, color) {}
-    }
-    */
 
     Menu {
         id : rootMenu
         spacing: fontSize24
         margins: fontSize24
+        implicitWidth:  fontSize16 * 12
 
         MenuItem {
             text: "Print"
@@ -290,7 +216,21 @@ Item {
 
             onTriggered: {
                 stackpages.currentIndex=0
+
+                console.info("************* STATE **************************");
+                console.info("StateOperational  "  + opc.stateOperational  );
+                console.info("stateCancelling  "  + opc.stateCancelling  );
+                console.info("statePausing  "  + opc.statePausing  );
+                console.info("statePaused  "  + opc.statePaused  );
+                console.info("statePrinting "  + opc.statePrinting );
+                console.info("stateSdReady "  + opc.stateSdReady );
+                console.info("stateError "  + opc.stateError );
+                console.info("stateReady "  + opc.stateReady );
+                console.info("stateClosedOrError "  + opc.stateClosedOrError );
+                console.info("stateFileSelected "  + opc.stateFileSelected );
+
             }
+
         }
         MenuItem {
             text: "Jog"
@@ -342,7 +282,7 @@ Item {
         id : systemctlMenu
         spacing: fontSize24
         margins: fontSize24
-        implicitWidth : fontSize16 * 24
+        implicitWidth : fontSize16 * 22
         x: Math.round((parent.width - width) / 2)
         y: Math.round((parent.height - height) / 2)
 
@@ -391,7 +331,8 @@ Item {
             anchors.fill: parent
             HeaderButton {
                 id: tbMenu
-                ToolTip.text: qsTr("Menu")
+                text: qsTr("Menu")
+                ToolTip.text: qsTr("Open main menu")
                 Layout.preferredWidth:   Math.floor(parent.width * 0.15)
                 Layout.fillHeight: true
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
@@ -400,49 +341,62 @@ Item {
                     rootMenu.open();
                 }
 
+
             }
 
             HeaderButton {
                 id: tbStart
-                ToolTip.text: qsTr("Start")
+                text : opc.statePaused ?   qsTr("Restart") : qsTr("Start")
+                ToolTip.text: opc.statePaused ? qsTr("Restarts the print job from the beginning") : qsTr("Starts the print job")
+                enabled: opc.stateOperational && opc.stateReady && !opc.statePrinting && !opc.stateCancelling && !opc.statePausing  && opc.stateFileSelected;
                 Layout.preferredWidth:  Math.floor(parent.width * 0.15)
                 Layout.fillHeight: true
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 Image { source : "qrc:/Images/header/play_circle_filled.svg" }
                 onClicked: {
-                    opc.jobcommand("start")
+                    if (opc.statePaused) {
+                        opc.jobcommand('"restart"');
+                    } else {
+                        opc.jobcommand('"start"');
+
+                    }
                 }
             }
 
             HeaderButton {
                 id: tbPause
-                ToolTip.text: qsTr("Pause")
+                text: opc.statePaused ?  qsTr("Resume") :qsTr("Pause")
+                ToolTip.text: opc.statePaused ? qsTr("Pauses the print job"):qsTr("Resumes the print job")
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 Layout.preferredWidth:  Math.floor(parent.width * 0.15)
                 Layout.fillHeight: true
-                enabled: false
-                checkable: true
+                //enabled: false
+                enabled: opc.stateOperational && ( opc.statePrinting || opc.statePaused)  && !opc.stateCancelling && !opc.statePausing
+                checkable: false
                 checked: false
                 Image { source : "qrc:/Images/header/pause_circle_filled.svg" }
                 onClicked: {
                     if (opc.statePaused) {
-                        opc.jobcommand('"pause" ,"action": "resume"')
+                        opc.jobcommand('"pause" , "action": "resume"')
                     } else {
-                        opc.jobcommand('"pause" ,"action": "pause"')
+                        opc.jobcommand('"pause" , "action": "pause"')
                     }
                 }
             }
 
             HeaderButton {
                 id: tbCancel
-                ToolTip.text: qsTr("Cancel")
+                text: qsTr("Cancel")
+                ToolTip.text: qsTr("Abort the print job")
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 Layout.preferredWidth:  Math.floor(parent.width * 0.15)
                 Layout.fillHeight: true
-                enabled: false
+                //enabled: false
+                enabled : opc.stateOperational && (opc.statePrinting || opc.statePaused) && !opc.stateCancelling && !opc.statePausing
+
                 Image {  source : "qrc:/Images/header/stop_circle.svg" }
                 onClicked: {
-                    opc.jobcommand("cancel")
+                    opc.jobcommand('"cancel"')
                 }
             }
 
@@ -458,6 +412,7 @@ Item {
                 Layout.preferredWidth:  Math.floor(parent.width * 0.4)
                 Layout.fillHeight: true
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+
             }
         }
     }

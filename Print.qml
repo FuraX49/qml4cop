@@ -68,6 +68,7 @@ Page {
                 RowLayout {
                     Layout.fillHeight: true
                     Layout.fillWidth: true
+
                     PrintButton {
                         id: btnOFF
                         text: qsTr("OFF")
@@ -111,6 +112,20 @@ Page {
                             }
                         }
                     }
+
+                    PrintButton {
+                        id: btnResetTemp
+                        checkable: false
+                        checked: false
+                        text: qsTr("T° alarm")
+                        Layout.fillHeight: true
+                        Layout.fillWidth: true
+                        onClicked: {
+                            opc.sendcommand("M562");
+                        }
+                    }
+
+
                 }
             }
             ColumnLayout {

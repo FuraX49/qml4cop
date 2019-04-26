@@ -21,9 +21,9 @@ T.Pane {
     background: Rectangle {
         id: rectangle
         radius: 4
-        color: Universal.background
+        color: control.Universal.background
         border.width: 2
-        border.color: Universal.foreground
+        border.color: control.Universal.foreground
     }
 }
 

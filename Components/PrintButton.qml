@@ -1,34 +1,55 @@
-import QtQuick 2.9
 import QtQuick.Controls 2.2
+import QtQuick 2.9
 import QtQuick.Controls.impl 2.2
+import QtQuick.Templates 2.2 as T
 import QtQuick.Controls.Universal 2.2
 
-Button  {
+T.Button {
     id: control
 
-    implicitHeight: 50
-    implicitWidth: 50
+    implicitWidth: Math.max(background ? background.implicitWidth : 0,
+                            contentItem.implicitWidth + leftPadding + rightPadding)
+    implicitHeight: Math.max(background ? background.implicitHeight : 0,
+                             contentItem.implicitHeight + topPadding + bottomPadding)
+    baselineOffset: contentItem.y + contentItem.baselineOffset
+
+    padding: 8
+    topPadding: padding - 4
+    bottomPadding: padding - 4
     property int borderWidth: 2
     property int radius: 4
-    property alias source :  image.source
 
-    background:
-        Rectangle {
-        id : rectControl
-        radius: radius
-        border.width: borderWidth
-        border.color: Universal.foreground
+    property bool useSystemFocusVisuals: true
 
-        opacity:  control.down || control.highlighted || control.checked ? 0.5 : 1.0
-        color: control.down || control.checked || control.highlighted ? Universal.accent :   Universal.background
+    contentItem: Text {
+        text: control.text
+        font: control.font
+        elide: Text.ElideRight
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
 
+        opacity: enabled ? 1.0 : 0.2
+        color: control.Universal.foreground
     }
 
-    Image {
-        id : image
-        width: parent.width  - borderWidth *2
-        height: parent.height - borderWidth * 2
-        fillMode: Image.PreserveAspectFit
-        anchors.centerIn: parent
+    background: Rectangle {
+        implicitWidth: 32
+        implicitHeight: 32
+        radius : radius
+
+        visible: !control.flat || control.down || control.checked || control.highlighted
+        color: control.down ? control.Universal.baseMediumLowColor :
+               control.enabled && (control.highlighted || control.checked) ? control.Universal.accent :
+                                                                             control.Universal.baseLowColor
+
+        Rectangle {
+            width: parent.width
+            height: parent.height
+            color: "transparent"
+            border.width: borderWidth
+            radius : radius
+            opacity: control.hovered ? 0.5 : 1.0
+            border.color: control.Universal.foreground
+        }
     }
 }
