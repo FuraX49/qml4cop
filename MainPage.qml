@@ -126,20 +126,20 @@ Item {
         }
 
         onStateOperationalChanged:  {
-            console.info("StateOperational  "  + stateOperational  + " at " + Date());
+            console.info("StateOperational  "  + stateOperational   );
         }
 
         onStateCancellingChanged: {
-            console.info("stateCancelling  "  + stateCancelling  + " at " + Date());
+            console.info("stateCancelling  "  + stateCancelling  );
         }
 
         onStatePausingChanged: {
-            console.info("statePausing  "  + statePausing  + " at " + Date());
+            console.info("statePausing  "  );
         }
 
 
         onStatePausedChanged: {
-            console.info("statePaused  "  + statePaused  + " at " + Date());
+            console.info("statePaused  "  );
         }
 
         onStateSdReadyChanged: {
@@ -182,9 +182,9 @@ Item {
         }
 
         onPositionUpdate:  {
-            jogpage.lbpX.text= x.toPrecision(2);
-            jogpage.lbpY.text= y.toPrecision(2);
-            jogpage.lbpZ.text= z.toPrecision(2);
+            jogpage.lbpX.text= x.toString();
+            jogpage.lbpY.text= y.toString();
+            jogpage.lbpZ.text= z.toString();
         }
 
 
@@ -216,7 +216,7 @@ Item {
 
             onTriggered: {
                 stackpages.currentIndex=0
-
+/*
                 console.info("************* STATE **************************");
                 console.info("StateOperational  "  + opc.stateOperational  );
                 console.info("stateCancelling  "  + opc.stateCancelling  );
@@ -228,6 +228,7 @@ Item {
                 console.info("stateReady "  + opc.stateReady );
                 console.info("stateClosedOrError "  + opc.stateClosedOrError );
                 console.info("stateFileSelected "  + opc.stateFileSelected );
+                */
 
             }
 
@@ -540,7 +541,6 @@ Item {
 
 
     Component.onCompleted: {
-        console.info("Completed at : " + Date());
         update();
         if ((cfg_Api_Key==="MODIFY") ||  (cfg_printerProfile==="MODIFY") || (cfg_printerPort==="MODIFY")  || (cfg_UserName==="MODIFY")  || (cfg_User_Key==="MODIFY")   ) {
             msgerror.open("Configuration error","Edit /etc/qml4cop/qml4cop.conf and modify configuration. ");
