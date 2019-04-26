@@ -20,10 +20,10 @@ Dialog {
     property var  opsjob : null
 
     onAccepted: {
-
         close();
         visible=false;
     }
+
     function openinfo() {
         opsjob=OPS.job;
         lbfilament.text="";

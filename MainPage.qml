@@ -17,8 +17,8 @@ Item {
     width: 800
     height: 480
     rotation: 0
-
     property bool portrait : (height>width)
+
 
     property alias msgerror: msgerror
 
@@ -188,11 +188,11 @@ Item {
         }
 
 
-        onFileSelected: {
-            if (OPS.job.file.name) {
-                printpage.printprogress.updateJob(OPS.job);
+        onStateViewJobChanged:  {
+            if ( stateViewJob )  {
+                printpage.printprogress.updateJob();
             }
-            tbStart.enabled=true;
+
         }
 
         onLogChanged: {

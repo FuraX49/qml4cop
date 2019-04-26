@@ -32,6 +32,8 @@ Item {
     property bool stateReady: false
     property bool stateClosedOrError: false
     property bool stateFileSelected: false
+    property bool stateViewJob: false
+
     property bool heatedBed: false
     property int extrudercount: 1
 
@@ -40,7 +42,6 @@ Item {
     signal profileChanged()
 
     signal tryConnect(int cnttry)
-    signal fileSelected()
     signal currentZChanged(real z)
     signal positionUpdate(real x, real y , real z)
 
@@ -331,8 +332,6 @@ Item {
                         {
                             console.log(" error fileselect  :" +p.responseText);
                             msgerror.open("Error file",p.responseText);
-                        } else {
-                            stateFileSelected=true;
                         }
                     }
                     ) ;
@@ -503,6 +502,7 @@ Item {
 
                 if (message.current.job) {
                     OPS.job=message.current.job;
+                    if  (stateFileSelected) stateViewJob=true;
                 }
 
                 if (message.current.progress) {
@@ -525,7 +525,8 @@ Item {
                     sendcommand("M114");
 
                 } else if (message.event.type==='FileSelected') {
-                    fileSelected();
+                    stateViewJob=false;
+                    stateFileSelected=true;
 
                 } else if (message.event.type==='ClientOpened') {
                     logChanged("Client opened from remote address "+ message.event.payload.remoteAddress);

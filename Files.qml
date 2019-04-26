@@ -209,7 +209,6 @@ Page {
                 checkable: false
                 onClicked: {
                     if (  pathsel !== "") {
-
                         opc.fileselect(originsel,pathsel);
                     }
                 }
@@ -292,7 +291,6 @@ Page {
                 checkable: false
                 onClicked: {
                     joginfo.openinfo();
-
                 }
             }
 
