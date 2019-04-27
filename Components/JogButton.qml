@@ -23,6 +23,7 @@ T.Button {
     property bool useSystemFocusVisuals: true
     text: "Z"
     font.pixelSize:  fontSize24
+    autoRepeat : homebutton ?  false : true
 
     contentItem: Text {
         text: control.text
@@ -66,71 +67,3 @@ T.Button {
     }
 }
 
-
-/*
-Button  {
-    id: control
-
-    implicitHeight: 50
-    implicitWidth: 50
-    property int borderWidth: 2
-    property int radius: 4
-    property bool homebutton: false
-    property bool es1: false
-    property bool es2: false
-
-    property alias image :  image.source
-    text: "Z"
-    font.pixelSize:  fontSize24
-    font.weight: Font.ExtraBold
-
-
-
-    onEs1Changed: {
-        esoc.color=Qt.rgba( (es1?1.0:0.0),0.0, (es2?1.0:0.0),1.0);
-        esoc.visible=es1||es2;
-    }
-    onEs2Changed: {
-        esoc.color=Qt.rgba( (es1?1.0:0.0),0.0, (es2?1.0:0.0),1.0);
-        esoc.visible=es1||es2;
-    }
-
-    contentItem: Text {
-        text: control.text
-        font: control.font
-//        opacity: enabled ? 1.0 : 0.3
-        //color: control.down ?  Universal.accent : Universal.foreground
-        horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
-        elide: Text.ElideRight
-    }
-
-
-    background:
-        Rectangle {
-        id : rectControl
-        radius:   homebutton ? width /2 : width / 4
-        border.width: borderWidth
-//        opacity: control.down ? 0.5 : 1.0
-//        color: control.down || control.checked || control.highlighted ?   Universal.accent :   Universal.foreground
-    }
-
-    Image {
-        id : image
-        width: parent.width  - borderWidth *2
-        height: parent.height - borderWidth * 2
-        fillMode: Image.PreserveAspectFit
-        opacity: 0.3
-        anchors.centerIn: parent
-
-    }
-    ColorOverlay {
-        id : esoc
-        anchors.fill: image
-        source: image
-        color: Qt.rgba( 0.0,0.0, 0.0,1.0);
-        visible : false
-    }
-
-}
-*/

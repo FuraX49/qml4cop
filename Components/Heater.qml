@@ -1,6 +1,7 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
+import QtQuick.Controls.Universal 2.2
 
 
 PaneBase {
@@ -10,6 +11,7 @@ PaneBase {
     padding: 2
     property string title: "Ext 0"
     property int maxTemp : 300
+    property int defTemp : 150
     property int minTemp: 0
     property real stepsize : 5
     property bool humantouch : false
@@ -19,6 +21,10 @@ PaneBase {
         id: p
         property int actualTemp: 0
         property int targetTemp: 0
+        onTargetTempChanged: {
+            if (targetTemp<0) targetTemp=0;
+            if (targetTemp>maxTemp ) targetTemp=maxTemp;
+        }
     }
 
     signal targetChanged(bool heat,int target)
@@ -83,6 +89,7 @@ PaneBase {
             font.bold: true
             font.pixelSize: fontSize14
             wheelEnabled: false
+            enabled: p.targetTemp<maxTemp
             autoRepeat: true
             Layout.margins:  4
             Layout.maximumHeight: Math.floor(parent.height *0.20)
@@ -92,15 +99,9 @@ PaneBase {
             flat : false
             onReleased: {
                 if ( pressed )  {
-                    if (p.targetTemp+stepsize<maxTemp){
-                        p.targetTemp+=stepsize;
-                    } else {
-                        p.targetTemp=maxTemp;
-                    }
+                    p.targetTemp+=stepsize;
                 } else {
-                    if (p.targetTemp<maxTemp){
-                        p.targetTemp++;
-                    }
+                    p.targetTemp++;
                 }
                 timerSaisie.start();
                 humantouch=true;
@@ -116,6 +117,9 @@ PaneBase {
             Layout.margins:  4
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             spacing : 0
+
+
+
 
             Label {
                 id : lab_Temps
@@ -178,6 +182,7 @@ PaneBase {
             font.pixelSize: fontSize14
             wheelEnabled: false
             autoRepeat: true
+            enabled: p.targetTemp>0
             Layout.margins:  4
             Layout.maximumHeight: Math.floor(parent.height *0.20)
             Layout.preferredWidth: Math.floor(parent.width *0.8)
@@ -186,15 +191,9 @@ PaneBase {
             flat : false
             onReleased: {
                 if ( pressed ) {
-                    if (p.targetTemp+stepsize>minTemp) {
-                        p.targetTemp-=stepsize;
-                    } else {
-                        p.targetTemp=minTemp;
-                    }
+                    p.targetTemp-=stepsize;
                 } else {
-                    if (p.targetTemp>minTemp) {
-                        p.targetTemp--;
-                    }
+                    p.targetTemp--;
                 }
                 timerSaisie.start();
                 humantouch=true;
@@ -216,6 +215,7 @@ PaneBase {
             checked: false
             checkable: true
             flat : false
+            autoRepeat : false
             Layout.margins:  4
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             onCheckedChanged: {
@@ -225,8 +225,35 @@ PaneBase {
                     text = qsTr("On")
                 }
                 humantouch=true;
+                if (p.targetTemp===0) p.targetTemp=defTemp;
                 heatChanged(checked,p.targetTemp);
+            }
+
+            background: Rectangle {
+                implicitWidth: 32
+                implicitHeight: 32
+                visible: !btnOnOff.flat || btnOnOff.down || btnOnOff.checked || btnOnOff.highlighted
+                gradient: Gradient {
+                    GradientStop { position: 0.0; color: btnOnOff.checked? "red" : Universal.baseLowColor }
+                    GradientStop { position: (Math.min(p.actualTemp,p.targetTemp)-1)/p.targetTemp ; color:  btnOnOff.checked? "yellow" :Universal.baseLowColor }
+                    GradientStop { position: 1.0; color: btnOnOff.checked?"blue" : Universal.baseLowColor  }
+                }
+
+                color: btnOnOff.down ? btnOnOff.Universal.baseMediumLowColor :
+                                       btnOnOff.enabled && (btnOnOff.highlighted || btnOnOff.checked) ? btnOnOff.Universal.accent :
+                                                                                                        btnOnOff.Universal.baseLowColor
+                Rectangle {
+                    width: parent.width
+                    height: parent.height
+                    color: "transparent"
+                    visible: btnOnOff.hovered
+                    border.width: 2
+                    border.color: control.Universal.baseMediumLowColor
+                }
+
+
             }
         }
     }
 }
+

@@ -184,6 +184,7 @@ Page {
                 Layout.fillWidth: true
                 title: "Bed"
                 maxTemp: 120
+                defTemp: cfg_BedPLA
                 onTargetChanged: {
                     if (heat) {
                         opc.bedtarget(target);
@@ -206,7 +207,7 @@ Page {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
                 title: "tool0"
-
+                defTemp: cfg_ExtPLA
                 onTargetChanged: {
                     if (heat) {
                         opc.tooltarget(objectName,target);
@@ -229,6 +230,7 @@ Page {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
                 title: "tool1"
+                defTemp: cfg_ExtPLA
                 onTargetChanged: {
                     if (heat) {
                         opc.tooltarget(objectName,target);
@@ -251,6 +253,7 @@ Page {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
                 title: "tool2"
+                defTemp: cfg_ExtPLA
                 onTargetChanged: {
                     if (heat) {
                         opc.tooltarget(objectName,target);
@@ -272,6 +275,7 @@ Page {
                 objectName: "tool3"
                 Layout.fillHeight: true
                 Layout.fillWidth: true
+                defTemp: cfg_ExtPLA
                 title: "tool3"
                 onTargetChanged: {
                     if (heat) {

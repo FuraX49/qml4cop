@@ -14,7 +14,6 @@ PaneBase {
     property int  tempminimal : 100
 
     signal extrude(string tool,real amount)
-    //signal retract(string tools,string length)
     signal selecttool(string tool)
 
     function majNbToosl(nb) {
