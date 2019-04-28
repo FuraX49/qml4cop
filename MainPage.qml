@@ -11,17 +11,14 @@ import "Components"
 import "Components/OctoPrintShared.js" as OPS
 
 
-Item {
+ApplicationWindow {
     id: mainpage
     visible: true
     width: 800
     height: 480
-    rotation: 0
+
     property bool portrait : (height>width)
-
-
     property alias msgerror: msgerror
-
 
     // Based on Minimal Height of 480
     property int fontSize8  : Math.round(height / 60 );
@@ -67,7 +64,6 @@ Item {
         category : "Window"
         property alias width: mainpage.width
         property alias height: mainpage.height
-        property alias rotation: mainpage.rotation
     }
 
 
@@ -106,6 +102,7 @@ Item {
                 configpage.btn_cnx.text="Disconnect";
                 opc.getprinterprofiles();
                 filespage.init();
+                graphpage.init();
             } else {
                 console.info("Disconnected at : " + Date());
                 configpage.btn_cnx.text="Connect";
@@ -161,13 +158,17 @@ Item {
         }
 
         onTempChanged: {
-            if (!history) {
+            if (!history ) {
                 printpage.tool0.updateTemps(OPS.temps.tool0.actual,OPS.temps.tool0.target);
                 if (printpage.tool1.visible) printpage.tool1.updateTemps(OPS.temps.tool1.actual,OPS.temps.tool1.target);
                 if (printpage.tool2.visible) printpage.tool2.updateTemps(OPS.temps.tool2.actual,OPS.temps.tool2.target);
                 if (printpage.tool3.visible) printpage.tool3.updateTemps(OPS.temps.tool3.actual,OPS.temps.tool3.target);
                 if (printpage.bed.visible) printpage.bed.updateTemps(OPS.temps.bed.actual,OPS.temps.bed.target);
+                graphpage.graphUpdate(OPS.serverTime);
+            } else {
+                graphpage.graphUpdate(heure);
             }
+
 
             // update Progress
             if (opc.statePrinting) {
@@ -216,7 +217,7 @@ Item {
 
             onTriggered: {
                 stackpages.currentIndex=0
-/*
+                /*
                 console.info("************* STATE **************************");
                 console.info("StateOperational  "  + opc.stateOperational  );
                 console.info("stateCancelling  "  + opc.stateCancelling  );
@@ -255,10 +256,17 @@ Item {
             }
         }
         MenuItem {
-            text: "Config"
+            text: "Graph"
             font.pixelSize:  fontSize16*2
             onTriggered: {
                 stackpages.currentIndex=4
+            }
+        }
+        MenuItem {
+            text: "Config"
+            font.pixelSize:  fontSize16*2
+            onTriggered: {
+                stackpages.currentIndex=5
             }
         }
         MenuItem {
@@ -268,14 +276,7 @@ Item {
                 systemctlMenu.open()
             }
         }
-        /*
-        MenuItem {
-            text: "Graph"
-            font.pixelSize:  fontSize16*2
-            onTriggered: {
-                stackpages.currentIndex=5
-            }
-        }*/
+        
     }
 
 
@@ -319,11 +320,10 @@ Item {
         contentHeight: fontSize24 *2
         //height: contentHeight
         width: parent.width
-        //position: ToolBar.Header
+        position: ToolBar.Header
         anchors.margins: 0
         spacing: 0
         padding: 0
-
         z: 89
 
 
@@ -434,8 +434,8 @@ Item {
         Jog {  id: jogpage  ; visible : false}
         Files {id: filespage ; visible : false}
         Terminal {id: terminalpage ; visible : false }
+        Graph {id: graphpage ; visible : false}
         Configs {id: configpage  ; visible : false }
-        //Graph {id: graphpage ; visible : false}
     }
 
 
@@ -535,8 +535,6 @@ Item {
             }
         }
     }
-
-
 
 
 

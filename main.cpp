@@ -1,7 +1,13 @@
+/*
 #include <QGuiApplication>
 #include <QtQml/QQmlEngine>
 #include <QtQuick/QQuickView>
 #include <QQmlContext>
+*/
+#include <QtWidgets/QApplication>
+#include <QtCore/QDir>
+#include <QQmlApplicationEngine>
+#include <QtQml/QQmlEngine>
 
 
 int main(int argc, char *argv[])
@@ -17,6 +23,12 @@ int main(int argc, char *argv[])
     app.setApplicationName(QStringLiteral("qml4cop"));
     app.setApplicationVersion(QStringLiteral("0.2.0"));
 
+    QQmlApplicationEngine engine;
+      engine.load(QUrl(QStringLiteral("qrc:/MainPage.qml")));
+      if (engine.rootObjects().isEmpty())
+          return -1;
+
+/*
     QQuickView view;
 
     view.setSource(QUrl(QStringLiteral("qrc:/MainPage.qml")));
@@ -28,6 +40,7 @@ int main(int argc, char *argv[])
 #else
     view.showFullScreen();
 #endif
+*/
     return app.exec();
 
 }

@@ -413,11 +413,13 @@ Item {
                     }
                 }
 
-                /* For QtCharts with history
+                // uncomment for PyQt5.QtChart
+                
                 if (message.history.temps)  {
                     temps =message.history.temps ;
                     for ( t in temps ) {
-                        now = new Date(temps[t].time);
+                        now = new Date(temps[t].time*1000);
+
                         if (temps[t].bed) {
                             OPS.temps.bed.actual = temps[t].bed.actual;
                             OPS.temps.bed.target = temps[t].bed.target;
@@ -441,7 +443,7 @@ Item {
                         }
                     }
                     tempChanged(true,now);
-                } */
+                }
             }
 
             // =========================== CURRENT PAYLOAD ===========================
@@ -511,6 +513,10 @@ Item {
                 if (message.current.messages) {
                     OPS.messages=message.current.messages;
                 }
+                if (message.current.serverTime) {
+                    OPS.serverTime = new Date(message.current.serverTime*1000);
+                }
+
             }
 
             // =========================== EVENT PAYLOAD ===========================

@@ -66,6 +66,8 @@ var currentz = {"currentZ": null}; //Current height of the Z-Axis (= current hei
 
 var messages = []; // Lines for the serial communication log (special messages)
 
+var serverTime = null;
+
 function formatMachineTimeString(seconds)
 {
     if (seconds) {
@@ -85,3 +87,5 @@ function formatMachineTimeString(seconds)
 
 
 
+var
+  cptGraph = 0;

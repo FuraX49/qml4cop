@@ -25,6 +25,7 @@ T.Button {
     font.pixelSize:  fontSize24
     autoRepeat : homebutton ?  false : true
 
+
     contentItem: Text {
         text: control.text
         font: control.font

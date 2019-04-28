@@ -105,12 +105,11 @@ Page {
 
     GridLayout {
         id: gridLayout
-        columnSpacing: 5
-        rowSpacing: 5
+        anchors.margins: fontSize10
+        columnSpacing: fontSize10
+        rowSpacing: fontSize10
         clip: false
         anchors.bottom: rowstep.top
-        anchors.margins: fontSize12
-
         anchors.top: rowaxes.bottom
         anchors.right: parent.right
         anchors.left: parent.left
@@ -124,6 +123,7 @@ Page {
         JogButton {
             id: mY
             text: qsTr("+Y")
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             image :  "qrc:/Images/jog/up.svg"
             homebutton:  false
             autoRepeat: true
@@ -141,6 +141,7 @@ Page {
         JogButton {
             id: mZ
             text: qsTr("+Z")
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             image  : "qrc:/Images/jog/up.svg"
             homebutton:  false
             autoRepeat: true
@@ -158,7 +159,9 @@ Page {
 
         JogButton {
             id: lX
+
             text: qsTr("-X")
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             image  : "qrc:/Images/jog/left.svg"
             homebutton:  false
             autoRepeat: true
@@ -177,6 +180,7 @@ Page {
             id: mX
             autoExclusive: true
             text: qsTr("+X")
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             image  : "qrc:/Images/jog/right.svg"
             homebutton:  false
             autoRepeat: true
@@ -195,6 +199,7 @@ Page {
         JogButton {
             id: lY
             text: qsTr("-Y")
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             image  : "qrc:/Images/jog/down.svg"
             homebutton:  false
             autoRepeat: true
@@ -212,6 +217,7 @@ Page {
         JogButton {
             id: lZ
             text: qsTr("-Z")
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             bottomPadding: 0
             topPadding: 0
             spacing: 0
@@ -233,6 +239,7 @@ Page {
         JogButton {
             id: homeX
             text: "X"
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             homebutton:  true
             autoExclusive: true
             Layout.column : 5
@@ -250,6 +257,7 @@ Page {
             id: homeY
             homebutton:  true
             text: "Y"
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             autoExclusive: true
             Layout.column : 5
             Layout.row : 1
@@ -267,6 +275,7 @@ Page {
             id: homeall
             homebutton:  true
             text: "ALL"
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             autoExclusive: true
             Layout.column : 4
             Layout.row :  1
@@ -282,6 +291,7 @@ Page {
         JogButton {
             id: homeZ
             text: "Z"
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             homebutton:  true
             autoExclusive: true
             Layout.column : 5
@@ -377,6 +387,12 @@ Page {
 
 
 }
+
+
+
+
+
+
 
 
 

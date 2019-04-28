@@ -233,14 +233,9 @@ PaneBase {
                 implicitWidth: 32
                 implicitHeight: 32
                 visible: !btnOnOff.flat || btnOnOff.down || btnOnOff.checked || btnOnOff.highlighted
-                gradient: Gradient {
-                    GradientStop { position: 0.0; color: btnOnOff.checked? "red" : Universal.baseLowColor }
-                    GradientStop { position: (Math.min(p.actualTemp,p.targetTemp)-1)/p.targetTemp ; color:  btnOnOff.checked? "yellow" :Universal.baseLowColor }
-                    GradientStop { position: 1.0; color: btnOnOff.checked?"blue" : Universal.baseLowColor  }
-                }
 
                 color: btnOnOff.down ? btnOnOff.Universal.baseMediumLowColor :
-                                       btnOnOff.enabled && (btnOnOff.highlighted || btnOnOff.checked) ? btnOnOff.Universal.accent :
+                                       btnOnOff.enabled && (btnOnOff.highlighted || btnOnOff.checked) ? Qt.rgba(p.actualTemp/p.targetTemp,0,1-(p.actualTemp/p.targetTemp),1) :
                                                                                                         btnOnOff.Universal.baseLowColor
                 Rectangle {
                     width: parent.width
