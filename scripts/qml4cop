@@ -14,6 +14,8 @@ export QT_QPA_EGLFS_WIDTH=800
 export QT_QPA_EGLFS_HEIGHT=480
 export QT_QPA_EGLFS_ROTATION=0
 
+
+export QT_API=pyqt5
 export XDG_RUNTIME_DIR=/tmp/xdg-rtd-${USER}
 if  [ ! -d ${XDG_RUNTIME_DIR} ]  ; then
 	mkdir -p ${XDG_RUNTIME_DIR}

@@ -413,8 +413,6 @@ Item {
                     }
                 }
 
-                // uncomment for PyQt5.QtChart
-                
                 if (message.history.temps)  {
                     temps =message.history.temps ;
                     for ( t in temps ) {
@@ -441,8 +439,9 @@ Item {
                             OPS.temps.tool3.actual = temps[t].tool3.actual;
                             OPS.temps.tool3.target = temps[t].tool3.target;
                         }
+                        tempChanged(true,now);
                     }
-                    tempChanged(true,now);
+
                 }
             }
 
@@ -529,6 +528,10 @@ Item {
 
                 } else if (message.event.type==='Home') {
                     sendcommand("M114");
+                } else if (message.event.type==='ToolChange') {
+                    // tool changed
+                } else if (message.event.type==='FirmwareData') {
+                    // M115 asked
 
                 } else if (message.event.type==='FileSelected') {
                     stateViewJob=false;

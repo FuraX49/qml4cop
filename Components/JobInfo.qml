@@ -56,7 +56,6 @@ Dialog {
             verticalAlignment: Text.AlignVCenter
             Layout.fillHeight: true
             Layout.fillWidth: true
-            font.pointSize:  fontSize10
         }
 
         Label {
@@ -66,7 +65,6 @@ Dialog {
             font.bold: true
             Layout.fillHeight: false
             Layout.fillWidth: true
-            font.pointSize: fontSize10
         }
 
         Label {
@@ -75,7 +73,6 @@ Dialog {
             verticalAlignment: Text.AlignVCenter
             Layout.fillHeight: true
             Layout.fillWidth: true
-            font.pointSize:  fontSize10
 
         }
         Label {
@@ -84,7 +81,6 @@ Dialog {
             font.bold: true
             Layout.fillHeight: false
             Layout.fillWidth: true
-            font.pointSize: fontSize10
         }
 
         Label {
@@ -93,7 +89,6 @@ Dialog {
             verticalAlignment: Text.AlignVCenter
             Layout.fillHeight: true
             Layout.fillWidth: true
-            font.pointSize:  fontSize10
         }
         Label {
             text: (opsjob!==null)?  Math.round(opsjob.file.size/1024) + "Kb" : ""
@@ -101,7 +96,6 @@ Dialog {
             font.bold: true
             Layout.fillHeight: false
             Layout.fillWidth: true
-            font.pointSize: fontSize10
         }
 
 
@@ -111,7 +105,6 @@ Dialog {
             verticalAlignment: Text.AlignVCenter
             Layout.fillHeight: true
             Layout.fillWidth: true
-            font.pointSize:  fontSize10
         }
         Label {
             text: (opsjob!==null)?  OPS.formatMachineTimeString(opsjob.estimatedPrintTime) : ""
@@ -119,7 +112,6 @@ Dialog {
             font.bold: true
             Layout.fillHeight: false
             Layout.fillWidth: true
-            font.pointSize: fontSize10
         }
 
         Label {
@@ -128,7 +120,6 @@ Dialog {
             verticalAlignment: Text.AlignVCenter
             Layout.fillHeight: true
             Layout.fillWidth: true
-            font.pointSize:  fontSize10
         }
         Label {
             text: (opsjob!==null)?  OPS.formatMachineTimeString(opsjob.lastPrintTime):""
@@ -136,7 +127,6 @@ Dialog {
             font.bold: true
             Layout.fillHeight: false
             Layout.fillWidth: true
-            font.pointSize: fontSize10
         }
 
         Label {
@@ -145,7 +135,6 @@ Dialog {
             verticalAlignment: Text.AlignVCenter
             Layout.fillHeight: true
             Layout.fillWidth: true
-            font.pointSize:  fontSize10
         }
         Label {
             id : lbfilament
@@ -154,7 +143,6 @@ Dialog {
             font.bold: true
             Layout.fillHeight: false
             Layout.fillWidth: true
-            font.pointSize: fontSize10
         }
     }
 

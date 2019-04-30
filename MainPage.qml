@@ -11,11 +11,13 @@ import "Components"
 import "Components/OctoPrintShared.js" as OPS
 
 
-ApplicationWindow {
+Item {
+
     id: mainpage
     visible: true
     width: 800
     height: 480
+    rotation: 0
 
     property bool portrait : (height>width)
     property alias msgerror: msgerror
@@ -64,6 +66,7 @@ ApplicationWindow {
         category : "Window"
         property alias width: mainpage.width
         property alias height: mainpage.height
+        property alias rotation: mainpage.rotation
     }
 
 
@@ -159,11 +162,7 @@ ApplicationWindow {
 
         onTempChanged: {
             if (!history ) {
-                printpage.tool0.updateTemps(OPS.temps.tool0.actual,OPS.temps.tool0.target);
-                if (printpage.tool1.visible) printpage.tool1.updateTemps(OPS.temps.tool1.actual,OPS.temps.tool1.target);
-                if (printpage.tool2.visible) printpage.tool2.updateTemps(OPS.temps.tool2.actual,OPS.temps.tool2.target);
-                if (printpage.tool3.visible) printpage.tool3.updateTemps(OPS.temps.tool3.actual,OPS.temps.tool3.target);
-                if (printpage.bed.visible) printpage.bed.updateTemps(OPS.temps.bed.actual,OPS.temps.bed.target);
+                printpage.updateTemps();
                 graphpage.graphUpdate(OPS.serverTime);
             } else {
                 graphpage.graphUpdate(heure);

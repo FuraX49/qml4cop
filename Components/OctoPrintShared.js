@@ -85,7 +85,3 @@ function formatMachineTimeString(seconds)
     }
 }
 
-
-
-var
-  cptGraph = 0;

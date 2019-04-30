@@ -46,8 +46,6 @@ Page {
             verticalAlignment: Text.AlignVCenter
             Layout.fillHeight: true
             Layout.fillWidth: true
-            font.pointSize: fontSize12
-
         }
 
         TextEdit {
@@ -58,7 +56,6 @@ Page {
             color: Universal.accent
             Layout.fillHeight: false
             Layout.fillWidth: true
-            font.pointSize: fontSize12
         }
 
         Label {
@@ -69,7 +66,6 @@ Page {
             verticalAlignment: Text.AlignVCenter
             Layout.fillHeight: true
             Layout.fillWidth: true
-             font.pointSize: fontSize12
         }
 
         TextEdit {
@@ -77,7 +73,6 @@ Page {
             text:cfg_Api_Key.toString()
             horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignVCenter
-            font.pointSize: portrait? fontSize12:fontSize12
             font.bold: true
             color: Universal.accent
             Layout.fillHeight: false
@@ -92,7 +87,6 @@ Page {
             verticalAlignment: Text.AlignVCenter
             Layout.fillHeight: true
             Layout.fillWidth: true
-             font.pointSize: fontSize12
         }
 
         TextEdit {
@@ -100,7 +94,6 @@ Page {
             text:cfg_UserName.toString()
             horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignVCenter
-            font.pointSize:  fontSize12
             font.bold: true
             color: Universal.accent
             Layout.fillHeight: false
@@ -116,7 +109,6 @@ Page {
             verticalAlignment: Text.AlignVCenter
             Layout.fillHeight: true
             Layout.fillWidth: true
-            font.pointSize:fontSize12
         }
 
         TextEdit {
@@ -124,7 +116,6 @@ Page {
             text:cfg_User_Key.toString()
             horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignVCenter
-            font.pointSize: portrait? fontSize12:fontSize12
             font.bold: true
             color: Universal.accent
             Layout.fillHeight: false
@@ -139,8 +130,6 @@ Page {
             verticalAlignment: Text.AlignVCenter
             Layout.fillHeight: true
             Layout.fillWidth: true
-             font.pointSize:fontSize12
-
         }
 
 
@@ -149,7 +138,6 @@ Page {
             text: cfg_printerPort
             font.bold: true
             color: Universal.accent
-            font.pointSize:  fontSize12
             Layout.fillHeight: false
             Layout.fillWidth: true
         }
@@ -164,8 +152,6 @@ Page {
             verticalAlignment: Text.AlignVCenter
             Layout.fillHeight: true
             Layout.fillWidth: true
-             font.pointSize: fontSize12
-
         }
 
         TextEdit {
@@ -173,7 +159,6 @@ Page {
             text: cfg_printerProfile
             font.bold: true
             color: Universal.accent
-            font.pointSize:  fontSize12
             Layout.fillHeight: false
             Layout.fillWidth: true
         }
@@ -201,21 +186,17 @@ Page {
             }
 
         }
-
     }
 
 
 
     function init(){
-
         if (octoprintclient.opcConnected) {
             btn_cnx.text="Disconnect";
         } else {
             btn_cnx.text="Connect";
         }
-
     }
-
 }
 
 

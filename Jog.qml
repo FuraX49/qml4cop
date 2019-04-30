@@ -100,34 +100,49 @@ Page {
     }
 
 
-
-
-
     GridLayout {
-        id: gridLayout
-        anchors.margins: fontSize10
-        columnSpacing: fontSize10
-        rowSpacing: fontSize10
-        clip: false
-        anchors.bottom: rowstep.top
-        anchors.top: rowaxes.bottom
-        anchors.right: parent.right
-        anchors.left: parent.left
+        id: joggrid
         rows: 3
         columns: 6
         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-        Layout.fillHeight: true
-        Layout.fillWidth: true
+        columnSpacing: fontSize12 /2
+        rowSpacing: fontSize12 /2
+        anchors.margins: fontSize12 /2
+        anchors.right: parent.right
+        anchors.left: parent.left
+        anchors.bottom: rowstep.top
+        anchors.top: rowaxes.bottom
+
 
         // XY
+
+        JogButton {
+            id: lX
+            text: qsTr("-X")
+            image  : "qrc:/Images/jog/left.svg"
+            homebutton:  false
+            autoRepeat: true
+            autoExclusive: true
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+            Layout.column : 0
+            Layout.row : 1
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+
+            onClicked: {
+                opc.jogprinter("X",-step.jogsize);
+                opc.sendcommand("M114");
+            }
+        }
+
         JogButton {
             id: mY
             text: qsTr("+Y")
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             image :  "qrc:/Images/jog/up.svg"
             homebutton:  false
             autoRepeat: true
             autoExclusive: true
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             Layout.column : 1
             Layout.row : 0
             Layout.fillHeight: true
@@ -139,51 +154,32 @@ Page {
         }
 
         JogButton {
-            id: mZ
-            text: qsTr("+Z")
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-            image  : "qrc:/Images/jog/up.svg"
+            id: lY
+            text: qsTr("-Y")
+            image  : "qrc:/Images/jog/down.svg"
             homebutton:  false
             autoRepeat: true
             autoExclusive: true
-            Layout.column : 3
-            Layout.row : 0
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+            Layout.column : 1
+            Layout.row : 2
             Layout.fillHeight: true
             Layout.fillWidth: true
             onClicked: {
-                opc.jogprinter("Z",step.jogsize);
+                opc.jogprinter("y",-step.jogsize);
                 opc.sendcommand("M114");
             }
         }
 
-
-        JogButton {
-            id: lX
-
-            text: qsTr("-X")
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-            image  : "qrc:/Images/jog/left.svg"
-            homebutton:  false
-            autoRepeat: true
-            autoExclusive: true
-            Layout.column : 0
-            Layout.row : 1
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            onClicked: {
-                opc.jogprinter("X",-step.jogsize);
-                opc.sendcommand("M114");
-            }
-        }
 
         JogButton {
             id: mX
             autoExclusive: true
             text: qsTr("+X")
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             image  : "qrc:/Images/jog/right.svg"
             homebutton:  false
             autoRepeat: true
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             Layout.column : 2
             Layout.row : 1
             Layout.fillHeight: true
@@ -195,36 +191,37 @@ Page {
         }
 
 
-
         JogButton {
-            id: lY
-            text: qsTr("-Y")
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-            image  : "qrc:/Images/jog/down.svg"
+            id: mZ
+            text: qsTr("+Z")
+            image  : "qrc:/Images/jog/up.svg"
             homebutton:  false
             autoRepeat: true
             autoExclusive: true
-            Layout.column : 1
-            Layout.row : 2
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+            Layout.column : 3
+            Layout.row : 0
             Layout.fillHeight: true
             Layout.fillWidth: true
             onClicked: {
-                opc.jogprinter("y",-step.jogsize);
+                opc.jogprinter("Z",step.jogsize);
                 opc.sendcommand("M114");
             }
         }
+
+
 
         JogButton {
             id: lZ
             text: qsTr("-Z")
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-            bottomPadding: 0
             topPadding: 0
             spacing: 0
             image : "qrc:/Images/jog/down.svg"
             homebutton:  false
             autoRepeat: true
             autoExclusive: true
+            bottomPadding: 0
             Layout.column : 3
             Layout.row : 2
             Layout.fillHeight: true
@@ -236,9 +233,29 @@ Page {
         }
 
         // home
+
+        JogButton {
+            id: homeall
+            homebutton:  true
+            text: "ALL"
+            autoExclusive: true
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+            Layout.column : 4
+            Layout.row :  1
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+            image : "qrc:/Images/jog/home.svg"
+            onClicked: {
+                opc.homeprinter("XYZ");
+                opc.sendcommand("M114");
+            }
+        }
+
         JogButton {
             id: homeX
             text: "X"
+            padding: 0
+            topPadding: 0
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             homebutton:  true
             autoExclusive: true
@@ -248,7 +265,7 @@ Page {
             Layout.fillWidth: true
             image : "qrc:/Images/jog/home.svg"
             onClicked: {
-                opc.homeprinter("x");
+                opc.homeprinter("X");
                 opc.sendcommand("M114");
             }
         }
@@ -271,22 +288,7 @@ Page {
 
         }
 
-        JogButton {
-            id: homeall
-            homebutton:  true
-            text: "ALL"
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-            autoExclusive: true
-            Layout.column : 4
-            Layout.row :  1
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            image : "qrc:/Images/jog/home.svg"
-            onClicked: {
-                opc.homeprinter("XYZ");
-                opc.sendcommand("M114");
-            }
-        }
+
 
         JogButton {
             id: homeZ
@@ -309,31 +311,31 @@ Page {
 
     RowLayout {
         id: rowstep
-
+        height: fontSize24 *2
+        anchors.margins: 0
+        anchors.rightMargin: fontSize12 / 2
+        anchors.leftMargin: fontSize12 / 2
         anchors.bottom: parent.bottom
         anchors.right: parent.right
         anchors.left: parent.left
-        anchors.margins: fontSize12
         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-        Layout.fillHeight: true
-        Layout.fillWidth: true
         spacing: fontSize12 /2
 
 
 
         StepBox {
             id : step
-            Layout.columnSpan: 2
             font.pixelSize: fontSize14
             font.bold: true
             Layout.fillHeight: true
             Layout.fillWidth: true
-
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
         }
 
         PrintButton {
             id : tbMotor
             text : "Motor OFF"
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             font.pixelSize: fontSize16
             font.weight: Font.ExtraBold
             Layout.fillHeight: true
@@ -346,6 +348,7 @@ Page {
         PrintButton {
             id : tbResetESAlarm
             text : "ES Alarm"
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             font.pixelSize: fontSize16
             font.weight: Font.ExtraBold
             Layout.fillHeight: true
@@ -357,34 +360,31 @@ Page {
 
         PrintButton {
             id : tbDockff
-            Layout.columnSpan: 1
             text : "Dock"
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             font.pixelSize: fontSize16
             font.weight: Font.ExtraBold
             Layout.fillHeight: true
             Layout.fillWidth: true
             onClicked: {
                 opc.sendcommand("G32");
-                opc.sendcommand("M114");
             }
         }
 
         PrintButton {
             id : tbUnDockff
             text : "UnDock"
-            checkable: true
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             font.pixelSize: fontSize16
             font.weight: Font.ExtraBold
             Layout.fillHeight: true
             Layout.fillWidth: true
             onClicked: {
                 opc.sendcommand("G31");
-                opc.sendcommand("M114");
             }
         }
 
     }
-
 
 }
 
@@ -398,7 +398,33 @@ Page {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*##^## Designer {
-    D{i:0;autoSize:true;height:480;width:800}
+    D{i:0;autoSize:true;height:480;width:800}D{i:8;anchors_width:800}
 }
  ##^##*/

@@ -3,71 +3,77 @@ import QtQuick.Window 2.2
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtCharts 2.0
+import QtQuick.Controls.Universal 2.2
 import "Components/OctoPrintShared.js" as OPS
 
 Page {
     id: graphpage
-    //title: qsTr("Graph")
     implicitHeight: 480
     implicitWidth: 640
 
     property int maxGraphHist : 400
+    property var  cptGraph: 0
 
 
     function graphUpdate (heure) {
         // Graph update 1/5 to reduce CPU (20% sur BBB)
-        if (heure && OPS.cptGraph===0  ) {
+        if (heure && cptGraph===0  ) {
             var maxpoint = false;
+            chart.enabled=false;
             tool0actual.append(heure,OPS.temps.tool0.actual);
             tool0target.append(heure,OPS.temps.tool0.target);
             if (tool0actual.count>=maxGraphHist ) {
-                tool0actual.removePoints(0,1);
-                tool0target.removePoints(0,1);
+                tool0actual.remove(0);
+                tool0target.remove(0);
                 maxpoint=true;
-
             } else {
                 maxpoint=false;
             }
 
-            if (printpage.tool1.visible) {
+            if (opc.extrudercount>1) {
                 tool1actual.append(heure,OPS.temps.tool1.actual);
                 tool1target.append(heure,OPS.temps.tool1.target);
                 if (maxpoint ) {
-                    tool1actual.removePoints(0,1);
-                    tool1target.removePoints(0,1);
+                    tool1actual.remove(0);
+                    tool1target.remove(0);
                 }
             }
 
-            if (printpage.tool2.visible) {
+            if (opc.extrudercount>2) {
                 tool2actual.append(heure,OPS.temps.tool2.actual);
                 tool2target.append(heure,OPS.temps.tool2.target);
                 if (maxpoint ) {
-                    tool2actual.removePoints(0,1);
-                    tool2target.removePoints(0,1);
+                    tool2actual.remove(0);
+                    tool2target.remove(0);
                 }
             }
-            if (printpage.tool3.visible) {
+            if (opc.extrudercount>3) {
                 tool3actual.append(heure,OPS.temps.tool3.actual);
                 tool3target.append(heure,OPS.temps.tool3.target);
                 if (maxpoint) {
-                    tool3actual.removePoints(0,1);
-                    tool3target.removePoints(0,1);
+                    tool3actual.remove(0);
+                    tool3target.remove(0);
                 }
             }
-            if (printpage.bed.visible) {
+            if (opc.heatedBed) {
                 bedactual.append(heure,OPS.temps.bed.actual);
                 bedtarget.append(heure,OPS.temps.bed.target);
                 if (maxpoint ) {
-                    bedactual.removePoints(0,1);
-                    bedtarget.removePoints(0,1);
+                    bedactual.remove(0);
+                    bedtarget.remove(0);
                 }
             }
-
             axisX.max=new Date(heure);
-            axisX.min=new Date(tool0actual.at(0).x);
+            axisX.min=new Date( tool0actual.at(0).x);
+            chart.enabled=true;
         }
-        OPS.cptGraph++;
-        if (OPS.cptGraph>5) OPS.cptGraph=0;
+        cptGraph++;
+        if (cptGraph>5) cptGraph=0;
+
+    }
+
+    onVisibleChanged: {
+        if (visible ) cptGraph=0;
     }
 
 
@@ -78,18 +84,18 @@ Page {
         anchors.margins: 0
         antialiasing: true
         animationOptions :ChartView.NoAnimation
-        titleFont: Qt.font({pointSize: fontSize12, bold:false});
+        backgroundColor: Universal.background
         legend {
             alignment : Qt.AlignBottom
             showToolTips : true
         }
 
         DateTimeAxis {
-            property date  now : new Date()
             id: axisX
             titleText: "time"
-          //  tickCount: 7
             format: "HH:mm"
+            labelsFont.pointSize: fontSize8
+            titleVisible: false
         }
 
         ValueAxis {
@@ -98,6 +104,8 @@ Page {
             max: 300
             tickCount: 5
             titleText: "°C"
+            labelsFont.pointSize: fontSize8
+            titleVisible: false
         }
 
         ValueAxis {
@@ -105,6 +113,7 @@ Page {
             min: 0
             max: 120
             tickCount: axisY.tickCount
+            labelsFont.pointSize: fontSize8
         }
 
 
@@ -131,14 +140,14 @@ Page {
             axisY: axisY
             name: "Tool0"
 
-            /* DateTimeAxis only updated on Tool0
+            /* DateTimeAxis only updated on Tool0  don't works ? !!
             onPointRemoved: {
                 axisX.min= new Date( at(0).x);
             }
             onPointsRemoved: {
-                axisX.min= new Date( at(0).x);
-            }
-            */
+                axisX.min= new Date( at(1).x);
+            }*/
+
         }
 
         LineSeries {
@@ -236,7 +245,6 @@ Page {
         tool3actual.visible=(opc.extrudercount>3);
         tool3target.visible=(opc.extrudercount>3);
         maxGraphHist=chart.plotArea.width-4;
-        maxGraphHist / 30 * 12
 
     }
 

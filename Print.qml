@@ -2,19 +2,21 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import "Components"
+import "Components/OctoPrintShared.js" as OPS
 
 
 Page {
     id: printpage
     property alias printprogress: printprogress
-    property alias tool0: tool0
-    property alias tool1: tool1
-    property alias tool2: tool2
-    property alias tool3: tool3
-    property alias bed: bed
-
-
     property var heattype : { "pla" : 1, "abs" : 2}
+
+    function updateTemps(){
+        tool0.updateTemps(OPS.temps.tool0.actual,OPS.temps.tool0.target);
+        if (tool1.visible) tool1.updateTemps(OPS.temps.tool1.actual,OPS.temps.tool1.target);
+        if (tool2.visible) tool2.updateTemps(OPS.temps.tool2.actual,OPS.temps.tool2.target);
+        if (tool3.visible) tool3.updateTemps(OPS.temps.tool3.actual,OPS.temps.tool3.target);
+        if (bed.visible) bed.updateTemps(OPS.temps.bed.actual,OPS.temps.bed.target);
+    }
 
     function allHeatExt(onOff,typeheat){
         var targets = "";
