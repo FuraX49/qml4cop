@@ -39,11 +39,14 @@ Item {
 
     signal tempChanged(bool history, date heure)
     signal logChanged(string log)
+    signal msgChanged(string log)
     signal profileChanged()
 
     signal tryConnect(int cnttry)
     signal currentZChanged(real z)
     signal positionUpdate(real x, real y , real z)
+
+    signal alarmTemp(string msgerr)
 
     property alias filesmodel: filesmodel
     ListModel {
@@ -71,7 +74,7 @@ Item {
             }
         })(xhr);
         xhr.open(method,cmdurl,false);
-        xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+        xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         xhr.setRequestHeader('X-Api-Key',apikey);
         xhr.setRequestHeader('Content-Lenght',String(data).length);
         if (debug){
@@ -323,7 +326,6 @@ Item {
     function  fileselect(origin,path){
         if (!_connected) return;
         var params = ' { "command" : "select" }'  ;
-        //var api = 'onClicked: {';
         var api = '/api/files';
         api=api.concat('/',origin,'/',path);
         sendRequest('POST',api,params,
@@ -343,7 +345,6 @@ Item {
         if (!_connected) return;
         command=command.toLowerCase();
         var params = ' { "command": '+  command + '}'  ;
-        console.debug(params);
         sendRequest('POST','/api/job',params,
                     function (p) {
                         if (p.status !== 204)
@@ -366,6 +367,23 @@ Item {
                         }
                     }
                     ) ;
+    }
+
+
+    // ************** REDEEM ***************************************
+    function  apiRedeem(command){
+        if (!_connected) return;
+        octoprintclient.debug=true;
+        var params = ' { command: "'+  command + '"}'  ;
+        sendRequest('POST','/api/plugin/redeem',params,
+                    function (p) {
+                        if (p.status !== 204 && p.status !== 200)
+                        {
+                            console.log(" error apiRedeem  :" +p.responseText);
+                        }
+                    }
+                    ) ;
+        octoprintclient.debug=false;
     }
 
 
@@ -396,6 +414,39 @@ Item {
                 if (debug) console.debug('OPC WebSocket send apikey connected !');
                 wsocket.sendTextMessage(msg);
             }
+
+
+            // =========================== PLUGIN PAYLOAD ===========================
+
+            if (message.plugin)  {
+                /*
+                console.debug("**** PLUGINS");
+                console.debug(rmsg);
+                if (message.plugin.data.type==="display_message") {
+                    console.debug("display");
+                }
+
+                if (message.plugin.data.type==="bed_probe_point") {
+                    console.debug("bed_probe_point");
+                }
+                */
+
+
+                if (message.plugin.data.type==="alarm_thermistor_error") {
+                    console.debug("alarm_thermistor_error "+ message.plugin.data.data.message);
+                    alarmTemp(message.plugin.data.data.message);
+                }
+
+                if (message.plugin.data.type==="alarm_heater_too_hot") {
+                    console.debug("alarm_heater_too_hot "+ message.plugin.data.data.message);
+                    alarmTemp(message.plugin.data.data.message);
+                }
+                if (message.plugin.data.type==="alarm_heater_too_cold") {
+                    console.debug("alarm_heater_too_cold "+ message.plugin.data.data.message);
+                    alarmTemp(message.plugin.data.data.message);
+                }
+            }
+
 
             var temps = null;
             var t = null;
@@ -487,7 +538,6 @@ Item {
                 }
 
 
-
                 if (message.current.state) {
                     stateText        = message.current.state.text;
                     stateOperational =  message.current.state.flags.operational;
@@ -509,9 +559,12 @@ Item {
                 if (message.current.progress) {
                     OPS.progress=message.current.progress;
                 }
+
                 if (message.current.messages) {
+
                     OPS.messages=message.current.messages;
                 }
+
                 if (message.current.serverTime) {
                     OPS.serverTime = new Date(message.current.serverTime*1000);
                 }
@@ -528,10 +581,7 @@ Item {
 
                 } else if (message.event.type==='Home') {
                     sendcommand("M114");
-                } else if (message.event.type==='ToolChange') {
-                    // tool changed
-                } else if (message.event.type==='FirmwareData') {
-                    // M115 asked
+
 
                 } else if (message.event.type==='FileSelected') {
                     stateViewJob=false;
@@ -552,6 +602,8 @@ Item {
                 } else if (message.event.type==='ClientClosed') {
                     logChanged("Client closed from remote address "+ message.event.payload.remoteAddress);
 
+                } else if (message.event.type==='Disconnected') {
+                    // Client Disconnected
 
                 } else if (message.event.type==='PrinterStateChanged') {
                     console.log("PrinterStateChanged : " + message.event.payload.state_id);
@@ -559,6 +611,7 @@ Item {
 
 
                     case "OFFLINE":
+                        disconnect();
                         break;
 
                     case "STARTING":
@@ -591,10 +644,20 @@ Item {
                     case "CANCELLING":
                         stateCancelling=true;
                         break;
-
-
                     }
 
+                } else if (message.event.type==='Disconnecting') {
+                    // Client Disconnecting
+                } else if (message.event.type==='Connecting') {
+                    // Client connecting
+                } else if (message.event.type==='Connected') {
+                    // Client connect
+                } else if (message.event.type==='ToolChange') {
+                    // tool changed
+                } else if (message.event.type==='FirmwareData') {
+                    // M115 asked
+                } else if (message.event.type==='UpdatedFiles') {
+                    // M20 ?
 
                 } else {
                     console.debug(" ==== EVENT PAYLOAD =>  " +message.event.type );
@@ -605,7 +668,7 @@ Item {
         }
 
         onStatusChanged: {
-            if (!wsocket) return debug && console.debug('OctoPrintClient has been deleted'); // Happens when the app is shutting down
+            if (!wsocket) return debug && console.debug('OctoPrintClient has been deleted');
             if (debug) console.debug('OPC WebSocket status:',statusNames[wsocket.status]);
             switch(wsocket.status){
             case WebSocket.Open:

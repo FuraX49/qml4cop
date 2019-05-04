@@ -9,11 +9,9 @@ Page {
     // 100 lines for log ?
     property int  maxloglines : 100
 
+
     function addLogs( log) {
         if (!cb_log.checked ) {
-
-
-
             var regex = /(Send: (N\d+\s+)?M105)|(Recv:\s+(ok\s+)?.*\s(T\d*):\d+)/;
             var regTemp = new RegExp(regex);
             var  mt = log.match(regTemp) ;

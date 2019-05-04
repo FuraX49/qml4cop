@@ -8,6 +8,7 @@ import "Components/OctoPrintShared.js" as OPS
 Page {
     id: printpage
     property alias printprogress: printprogress
+    property alias btnResetTemp:btnResetTemp
     property var heattype : { "pla" : 1, "abs" : 2}
 
     function updateTemps(){
@@ -117,13 +118,15 @@ Page {
 
                     PrintButton {
                         id: btnResetTemp
-                        checkable: false
+                        checkable: true
                         checked: false
                         text: qsTr("T° alarm")
                         Layout.fillHeight: true
                         Layout.fillWidth: true
+
                         onClicked: {
                             opc.sendcommand("M562");
+                            checked= false;
                         }
                     }
 

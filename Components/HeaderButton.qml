@@ -12,6 +12,7 @@ T.ToolButton {
                              contentItem.implicitHeight + topPadding + bottomPadding)
     baselineOffset: contentItem.y + contentItem.baselineOffset
 
+
     padding: 6
 
     property bool useSystemFocusVisuals: true
@@ -31,12 +32,14 @@ T.ToolButton {
 
         opacity: enabled ? 1.0 : 0.2
         color: control.Universal.foreground
-    }
+        }
+
+
+
 
     background: Rectangle {
         implicitWidth: 68
         implicitHeight: 48 // AppBarThemeCompactHeight
-
         color: control.enabled && (control.highlighted || control.checked) ? control.Universal.accent : "transparent"
 
         Rectangle {

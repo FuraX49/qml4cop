@@ -10,7 +10,6 @@ import QtQml 2.2
 import "Components"
 import "Components/OctoPrintShared.js" as OPS
 
-
 Item {
 
     id: mainpage
@@ -147,17 +146,18 @@ Item {
         }
 
         onStateErrorChanged:  {
-            console.debug("stateError " + stateError )
+            console.info("stateError " + stateError )
         }
 
         onStateReadyChanged: {
-            console.debug("stateReady " + stateReady )
+            console.info("stateReady " + stateReady )
         }
 
         onStateClosedOrErrorChanged: {
-            lbStatus.text="Error";
-            msgerror.open("OctoPrint ERROR",opc.stateText);
-            console.debug("stateClosedOrError " + stateClosedOrError )
+            if (stateClosedOrError) {
+                msgerror.open("OctoPrint ERROR",opc.stateText);
+                console.info("stateClosedOrError " + stateClosedOrError );
+            }
         }
 
         onTempChanged: {
@@ -199,6 +199,12 @@ Item {
             terminalpage.addLogs(log);
         }
 
+        onAlarmTemp: {
+            printpage.btnResetTemp.checked=true;
+            msgerror.open("REDEEM ERROR",msgerr);
+        }
+
+
 
     }
 
@@ -206,30 +212,17 @@ Item {
 
     Menu {
         id : rootMenu
+
         spacing: fontSize24
         margins: fontSize24
-        implicitWidth:  fontSize16 * 12
+        implicitWidth:   fontSize16 * 12
+
 
         MenuItem {
             text: "Print"
             font.pixelSize: fontSize16*2
-
             onTriggered: {
                 stackpages.currentIndex=0
-                /*
-                console.info("************* STATE **************************");
-                console.info("StateOperational  "  + opc.stateOperational  );
-                console.info("stateCancelling  "  + opc.stateCancelling  );
-                console.info("statePausing  "  + opc.statePausing  );
-                console.info("statePaused  "  + opc.statePaused  );
-                console.info("statePrinting "  + opc.statePrinting );
-                console.info("stateSdReady "  + opc.stateSdReady );
-                console.info("stateError "  + opc.stateError );
-                console.info("stateReady "  + opc.stateReady );
-                console.info("stateClosedOrError "  + opc.stateClosedOrError );
-                console.info("stateFileSelected "  + opc.stateFileSelected );
-                */
-
             }
 
         }
@@ -275,7 +268,7 @@ Item {
                 systemctlMenu.open()
             }
         }
-        
+
     }
 
 
@@ -311,6 +304,16 @@ Item {
                 opc.actioncore('restart');
             }
         }
+        /*
+        // why dont't  works?
+        MenuSeparator { }
+        MenuItem {
+            text: qsTr("Restart REDEEM")
+            font.pixelSize:  fontSize16*2
+            onTriggered: {
+                opc.apiRedeem("restart_redeem");
+            }
+        }*/
     }
 
 
@@ -352,7 +355,10 @@ Item {
                 Layout.preferredWidth:  Math.floor(parent.width * 0.15)
                 Layout.fillHeight: true
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                Image { source : "qrc:/Images/header/play_circle_filled.svg" }
+                Image {
+                    source : "qrc:/Images/header/play_circle_filled.svg"
+                    opacity: enabled ? 1.0 : 0.2
+                }
                 onClicked: {
                     if (opc.statePaused) {
                         opc.jobcommand('"restart"');
@@ -370,11 +376,13 @@ Item {
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 Layout.preferredWidth:  Math.floor(parent.width * 0.15)
                 Layout.fillHeight: true
-                //enabled: false
                 enabled: opc.stateOperational && ( opc.statePrinting || opc.statePaused)  && !opc.stateCancelling && !opc.statePausing
                 checkable: false
                 checked: false
-                Image { source : "qrc:/Images/header/pause_circle_filled.svg" }
+                Image {
+                    source : "qrc:/Images/header/pause_circle_filled.svg"
+                    opacity: enabled ? 1.0 : 0.2
+                }
                 onClicked: {
                     if (opc.statePaused) {
                         opc.jobcommand('"pause" , "action": "resume"')
@@ -391,10 +399,11 @@ Item {
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 Layout.preferredWidth:  Math.floor(parent.width * 0.15)
                 Layout.fillHeight: true
-                //enabled: false
                 enabled : opc.stateOperational && (opc.statePrinting || opc.statePaused) && !opc.stateCancelling && !opc.statePausing
-
-                Image {  source : "qrc:/Images/header/stop_circle.svg" }
+                Image {
+                    source : "qrc:/Images/header/stop_circle.svg"
+                    opacity: enabled ? 1.0 : 0.2
+                }
                 onClicked: {
                     opc.jobcommand('"cancel"')
                 }
@@ -412,7 +421,23 @@ Item {
                 Layout.preferredWidth:  Math.floor(parent.width * 0.4)
                 Layout.fillHeight: true
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-
+                // for trace state...
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        console.info("************* STATE **************************");
+                        console.info("StateOperational  "  + opc.stateOperational  );
+                        console.info("stateCancelling  "  + opc.stateCancelling  );
+                        console.info("statePausing  "  + opc.statePausing  );
+                        console.info("statePaused  "  + opc.statePaused  );
+                        console.info("statePrinting "  + opc.statePrinting );
+                        console.info("stateSdReady "  + opc.stateSdReady );
+                        console.info("stateError "  + opc.stateError );
+                        console.info("stateReady "  + opc.stateReady );
+                        console.info("stateClosedOrError "  + opc.stateClosedOrError );
+                        console.info("stateFileSelected "  + opc.stateFileSelected );
+                    }
+                }
             }
         }
     }

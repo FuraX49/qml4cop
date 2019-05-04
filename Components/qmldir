@@ -1,0 +1,16 @@
+module components.qml4cop
+
+Extruder        1.0 Extruder.qml
+FanControl      1.0 FanControl.qml
+HeaderButton    1.0 HeaderButton.qml
+Heater          1.0 Heater.qml
+JobInfo         1.0 JobInfo.qml
+JogButton       1.0 JogButton.qml
+OctoPrintClient 1.0 OctoPrintClient.qml
+PaneBase        1.0 PaneBase.qml
+PrintButton     1.0 PrintButton.qml
+PrintProgress   1.0 PrintProgress.qml
+RateControl     1.0 RateControl.qml
+StepBox         1.0 StepBox.qml
+
+OctoPrintShared     OctoPrintShared.js
