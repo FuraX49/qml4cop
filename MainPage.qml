@@ -199,11 +199,23 @@ Item {
             terminalpage.addLogs(log);
         }
 
-        onAlarmTemp: {
+        onAlarmTempRedeem:  {
             printpage.btnResetTemp.checked=true;
             msgerror.open("REDEEM ERROR",msgerr);
         }
 
+        onAlarmStepperRedeem: {
+            msgerror.open("REDEEM ERROR",msgerr);
+        }
+
+        onAlarmEsRedeem: {
+            jogpage.tbResetESAlarm.checked=true;
+            msgerror.open("REDEEM ERROR",msgerr);
+        }
+
+        onAlarmJamRedeem:  {
+            msgerror.open("REDEEM ERROR",msgerr);
+        }
 
 
     }
@@ -304,7 +316,7 @@ Item {
                 opc.actioncore('restart');
             }
         }
-        /*
+
         // why dont't  works?
         MenuSeparator { }
         MenuItem {
@@ -313,7 +325,7 @@ Item {
             onTriggered: {
                 opc.apiRedeem("restart_redeem");
             }
-        }*/
+        }
     }
 
 
@@ -514,7 +526,7 @@ Item {
 
         function open(title,msg) {
             ltitle.text=title;
-            lmsg.text=msg;
+            lmsg.text= lmsg.text +"\n"+ msg ;
             msgerror.visible=true;
         }
 
@@ -554,6 +566,7 @@ Item {
                 text: qsTr("Close")
                 Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                 onClicked: {
+                    lmsg.text="";
                     msgerror.visible=false;
                 }
             }

@@ -10,6 +10,7 @@ Page {
     property alias lbpX: lbpX
     property alias lbpY: lbpY
     property alias lbpZ: lbpZ
+    property alias tbResetESAlarm: tbResetESAlarm
 
 
     onVisibleChanged: {
@@ -348,12 +349,14 @@ Page {
         PrintButton {
             id : tbResetESAlarm
             text : "ES Alarm"
+            checkable: true
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             font.pixelSize: fontSize16
             font.weight: Font.ExtraBold
             Layout.fillHeight: true
             Layout.fillWidth: true
             onClicked: {
+                tbResetESAlarm.checked=false;
                 opc.sendcommand("M19");
             }
         }

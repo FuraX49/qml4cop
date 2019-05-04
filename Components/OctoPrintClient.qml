@@ -46,7 +46,10 @@ Item {
     signal currentZChanged(real z)
     signal positionUpdate(real x, real y , real z)
 
-    signal alarmTemp(string msgerr)
+    signal alarmTempRedeem(string msgerr)
+    signal alarmStepperRedeem()
+    signal alarmJamRedeem(string msgerr)
+    signal alarmEsRedeem(string msgerr)
 
     property alias filesmodel: filesmodel
     ListModel {
@@ -375,7 +378,7 @@ Item {
         if (!_connected) return;
         octoprintclient.debug=true;
         var params = ' { command: "'+  command + '"}'  ;
-        sendRequest('POST','/api/plugin/redeem',params,
+        sendRequest('POST','/api/system/commands/custom/'+command,params,
                     function (p) {
                         if (p.status !== 204 && p.status !== 200)
                         {
@@ -430,21 +433,30 @@ Item {
                     console.debug("bed_probe_point");
                 }
                 */
+                 if ( (message.plugin.data.type==="alarm_thermistor_error")
+                    ||(message.plugin.data.type==="alarm_heater_too_cold")
+                    ||(message.plugin.data.type==="alarm_heater_too_hot")
+                    ||(message.plugin.data.type==="alarm_heater_rising_fast")) {
+                     console.debug(message.plugin.data.type + " : "+ message.plugin.data.data.message);
+                     alarmTempRedeem(message.plugin.data.data.message);
+                 }
+
+                 if  (message.plugin.data.type==="alarm_stepper_fault")  {
+                     console.debug(message.plugin.data.type + " : "+ message.plugin.data.data.message);
+                     alarmStepperRedeem(message.plugin.data.data.message);
+                 }
+
+                 if  (message.plugin.data.type==="alarm_filament_jam")  {
+                     console.debug(message.plugin.data.type + " : "+ message.plugin.data.data.message);
+                     alarmJamRedeem(message.plugin.data.data.message);
+                 }
+
+                 if  (message.plugin.data.type==="alarm_endstop_hit")  {
+                     console.debug(message.plugin.data.type + " : "+ message.plugin.data.data.message);
+                     alarmEsRedeem(message.plugin.data.data.message);
+                 }
 
 
-                if (message.plugin.data.type==="alarm_thermistor_error") {
-                    console.debug("alarm_thermistor_error "+ message.plugin.data.data.message);
-                    alarmTemp(message.plugin.data.data.message);
-                }
-
-                if (message.plugin.data.type==="alarm_heater_too_hot") {
-                    console.debug("alarm_heater_too_hot "+ message.plugin.data.data.message);
-                    alarmTemp(message.plugin.data.data.message);
-                }
-                if (message.plugin.data.type==="alarm_heater_too_cold") {
-                    console.debug("alarm_heater_too_cold "+ message.plugin.data.data.message);
-                    alarmTemp(message.plugin.data.data.message);
-                }
             }
 
 
